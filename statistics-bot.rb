@@ -12,8 +12,10 @@ bot.message(with_text: 'help!') do |event|
   message = """
 help!               - Displays this message.
 link!               - Useful links relating to the group.
+top10! (username)   - Displays the top 10 in the league.
 stats! (username)   - Displays the statistics of a user.
 medals! (username)  - Displays the medal a user has collected.
+compare! (username)  - Compare yourself against another trainer
   """
 
   event.respond message
@@ -27,7 +29,7 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
   event.respond links
 end
 
-bot.message(with_text: 'top-10!') do |event|
+bot.message(with_text: 'top10!') do |event|
 
   hashes = []
   response.values.each do |row|
@@ -123,12 +125,19 @@ bot.message(start_with: 'compare!') do |event|
     their_stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_xp] <=> a[:total_xp] }
+    message << print_compare_players(leader, runner_up, :total_xp, 'XP')
 
-    message << print_compare_players_xp(leader, runner_up)
+    leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_gyms] <=> a[:total_gyms] }
+    message << print_compare_players(leader, runner_up, :total_gyms, 'Total Gyms')
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_golds_gyms] <=> a[:total_golds_gyms] }
+    message << print_compare_players(leader, runner_up, :total_golds_gyms, 'Total Gold Gyms')
 
-    message << print_compare_players_gold_gyms(leader, runner_up)
+    leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_perfect_pokemon] <=> a[:total_perfect_pokemon] }
+    message << print_compare_players(leader, runner_up, :total_perfect_pokemon, 'Total 100% Pokemon')
+
+    leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_unique_perfect_pokemon] <=> a[:total_unique_perfect_pokemon] }
+    message << print_compare_players(leader, runner_up, :total_unique_perfect_pokemon, 'Total Unique 100% Pokemon')
 
     event.respond message
   end

@@ -85,26 +85,6 @@ Level 40 Completion Date: #{stats[:level_40_date]}
   """
 end
 
-def print_compare_players_xp(leader,runner_up)
-  """
-#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_xp] - runner_up[:total_xp])} XP
-
-Total XP: #{leader[:total_xp]} / #{runner_up[:total_xp]}
-  """
-end
-
-def print_compare_players_unique_perfects(leader,runner_up)
-  """
-#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_unique_perfect_pokemon] - runner_up[:total_unique_perfect_pokemon])} pokemon
-
-Total Unique 100% Pokemon: #{leader[:total_unique_perfect_pokemon]} / #{runner_up[:total_unique_perfect_pokemon]}
-  """
-end
-
-def print_compare_players_gold_gyms(leader,runner_up)
-  """
-#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_golds_gyms] - runner_up[:total_golds_gyms])} gyms
-
-Total Gold Gyms: #{leader[:total_golds_gyms]} / #{runner_up[:total_golds_gyms]}
-  """
+def print_compare_players(leader,runner_up, type, string)
+  "#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[type] - runner_up[type])} #{string} (#{leader[type]} / #{runner_up[type]})\n"
 end
