@@ -35,11 +35,12 @@ end
 
 def player_overall_stats(row)
   {
-    total_perfect_pokemon: row[26],
-    total_gyms: row[27],
-    total_golds_pokemon_per_type1: row[28],
-    total_golds_pokemon_per_type: row[29],
-    last_updated: row[30]
+    total_perfect_pokemon: row[26].to_i,
+    total_unique_perfect_pokemon: row[27].to_i,
+    total_gyms: row[28].to_i,
+    total_golds_gyms: row[29].to_i,
+    total_golds_pokemon_per_type: row[30].to_i,
+    last_updated: row[31]
   }
 end
 
@@ -69,14 +70,41 @@ def print_player_stats(stats)
   """
 Name: #{stats[:player_tag].capitalize} (#{stats[:team].capitalize})
 
-Start Date: #{stats[:start_date]}
-Level 40 Completion Date: #{stats[:level_40_date]}
 Current Level: #{stats[:current_level]}
 
 Total XP: #{stats[:total_xp]}
 
-Pokemon Seen: #{stats[:pokemon_seen]}
 Pokemon Caught: #{stats[:pokemon_caught]}
+Pokemon Seen: #{stats[:pokemon_seen]}
+
+Total 100% Pokemon: #{stats[:total_perfect_pokemon]}
+Total Unique 100% Pokemon: #{stats[:total_unique_perfect_pokemon]}
+
+Start Date: #{stats[:start_date]}
+Level 40 Completion Date: #{stats[:level_40_date]}
   """
 end
 
+def print_compare_players_xp(leader,runner_up)
+  """
+#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_xp] - runner_up[:total_xp])} XP
+
+Total XP: #{leader[:total_xp]} / #{runner_up[:total_xp]}
+  """
+end
+
+def print_compare_players_unique_perfects(leader,runner_up)
+  """
+#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_unique_perfect_pokemon] - runner_up[:total_unique_perfect_pokemon])} pokemon
+
+Total Unique 100% Pokemon: #{leader[:total_unique_perfect_pokemon]} / #{runner_up[:total_unique_perfect_pokemon]}
+  """
+end
+
+def print_compare_players_gold_gyms(leader,runner_up)
+  """
+#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[:total_golds_gyms] - runner_up[:total_golds_gyms])} gyms
+
+Total Gold Gyms: #{leader[:total_golds_gyms]} / #{runner_up[:total_golds_gyms]}
+  """
+end

@@ -106,4 +106,32 @@ bot.message(with_text: 'medals!') do |event|
   end
 end
 
+
+bot.message(start_with: 'compare!') do |event|
+  expected_name = event.message.content.split.last
+
+  row = response.values.select { |stats| stats[3] == expected_name }.flatten
+
+  my_row = response.values.select { |stats| stats[3] == event.user.name }.flatten
+
+  message = ""
+
+  if row.empty?
+    event.respond "#{expected_name} have not added their stats, type !links for the league URL"
+  else
+    my_stats = player_info(my_row).merge(player_medals(my_row)).merge(player_overall_stats(my_row))
+    their_stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
+
+    leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_xp] <=> a[:total_xp] }
+
+    message << print_compare_players_xp(leader, runner_up)
+
+    leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_golds_gyms] <=> a[:total_golds_gyms] }
+
+    message << print_compare_players_gold_gyms(leader, runner_up)
+
+    event.respond message
+  end
+end
+
 bot.run
