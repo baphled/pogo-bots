@@ -44,7 +44,7 @@ bot.message(with_text: 'top10!') do |event|
 
   rows.each_with_index do |stats, index|
 
-    message << "#{index + 1}. #{stats[:player_tag]} (#{stats[:team]}) - #{stats[:total_xp]}\n"
+    message << "#{(index + 1)}) #{stats[:player_tag]} (#{stats[:team]}) - #{stats[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP\n"
   end
 
   event.respond message
@@ -126,6 +126,7 @@ bot.message(start_with: 'compare!') do |event|
     their_stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_xp] <=> a[:total_xp] }
+
     message << print_compare_players(leader, runner_up, :total_xp, 'XP')
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_gyms] <=> a[:total_gyms] }
