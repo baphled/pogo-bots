@@ -20,28 +20,47 @@ RSpec.describe PogoStats::Spreadsheet do
   end
 
   describe '#new' do
+    let(:expected_array) { values.first }
+
     subject { described_class }
 
     it 'takes an array of values' do
       expect { subject.new(values: values) }.not_to raise_error
     end
+
+    it 'instantiates the a players general information' do
+      expect(PogoStats::Stats::Player).to receive(:new).with(expected_array).exactly(:once)
+
+      subject.new(values: values)
+    end
+
+    it 'instantiates the a players medal stats' do
+      expect(PogoStats::Stats::Medals).to receive(:new).with(expected_array).exactly(:once)
+
+      subject.new(values: values)
+    end
+
+    it 'instantiates the a players overall stats' do
+      expect(PogoStats::Stats::Overall).to receive(:new).with(expected_array).exactly(:once)
+
+      subject.new(values: values)
+    end
   end
 
   describe '#entries' do
-    let(:expected_array) { values.first }
     let(:expected_leading_space) { [] }
     let(:expected_delimiter) { ["ADD STATS BELOW THIS LINE:"] }
 
-    it 'includes the expected entries' do
-      expect(subject.entries).to include(expected_array)
+    it 'includes player stats' do
+      expect(subject.entries.first[:player]).to be_a(PogoStats::Stats::Player)
     end
 
-    it 'does not include empty lines' do
-      expect(subject.entries).not_to include(expected_leading_space)
+    it 'includes player medals' do
+      expect(subject.entries.first[:medals]).to be_a(PogoStats::Stats::Medals)
     end
 
-    it 'does not include the message line' do
-      expect(subject.entries).not_to include(expected_delimiter)
+    it 'includes player overall stats' do
+      expect(subject.entries.first[:overall]).to be_a(PogoStats::Stats::Overall)
     end
   end
 end
