@@ -1,6 +1,6 @@
 module PogoStats
   module Stats
-    class Player
+    class Medals
       def initialize(values)
       end
     end

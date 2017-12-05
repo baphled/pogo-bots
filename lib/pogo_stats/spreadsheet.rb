@@ -19,7 +19,9 @@ module PogoStats
         medals = PogoStats::Stats::Medals.new(row)
         overall = PogoStats::Stats::Overall.new(row)
 
-        @entries << { player: player, medals: medals, overall: overall }
+        entry = PogoStats::Stats::Entry.new(player: player, medals: medals, overall: overall)
+
+        @entries << entry
       end
     end
   end

@@ -48,19 +48,25 @@ RSpec.describe PogoStats::Spreadsheet do
   end
 
   describe '#entries' do
+    subject { described_class.new(values: values).entries }
+
     let(:expected_leading_space) { [] }
     let(:expected_delimiter) { ["ADD STATS BELOW THIS LINE:"] }
 
+    it 'includes the player' do
+      expect(subject.first).to be_a(PogoStats::Stats::Entry)
+    end
+
     it 'includes player stats' do
-      expect(subject.entries.first[:player]).to be_a(PogoStats::Stats::Player)
+      expect(subject.first.player).to be_a(PogoStats::Stats::Player)
     end
 
     it 'includes player medals' do
-      expect(subject.entries.first[:medals]).to be_a(PogoStats::Stats::Medals)
+      expect(subject.first.medals).to be_a(PogoStats::Stats::Medals)
     end
 
     it 'includes player overall stats' do
-      expect(subject.entries.first[:overall]).to be_a(PogoStats::Stats::Overall)
+      expect(subject.first.overall).to be_a(PogoStats::Stats::Overall)
     end
   end
 end
