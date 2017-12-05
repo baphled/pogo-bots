@@ -1,4 +1,5 @@
 require 'pogo_stats/stats/entry'
+require 'pogo_stats/stats/mapper'
 
 require 'pogo_stats/stats/player'
 require 'pogo_stats/stats/medals'
