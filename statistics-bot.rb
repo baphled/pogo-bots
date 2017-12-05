@@ -22,6 +22,11 @@ top-team!           - Display the top Pokemon Team
   event.respond message
 end
 
+bot.message(with_text: 'boo!') do |event|
+
+  event.respond ':mystic:'
+end
+
 bot.message(with_text: 'links!') do |event|
   links = """
 Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWDdJ_rQargbKh7qGY/edit?usp=sharing
@@ -51,6 +56,7 @@ bot.message(with_text: 'top10!') do |event|
 end
 
 bot.message(starting_with: 'stats!') do |event|
+
   # Hack to stop us from triggering the wrong stats message
   if event.message.content.split.count > 1
     expected_name = event.message.content.split.last
@@ -67,7 +73,7 @@ bot.message(starting_with: 'stats!') do |event|
   end
 end
 
-bot.message(with_text: 'stats!') do |event|
+bot.message(content: 'stats!') do |event|
   row = response.values.select { |stats| stats[3] == event.user.name }.flatten
 
   if row.empty?
@@ -96,7 +102,7 @@ bot.message(starting_with: 'medals!') do |event|
   end
 end
 
-bot.message(with_text: 'medals!') do |event|
+bot.message(content: 'medals!') do |event|
 
   row = response.values.select { |stats| stats[3] == event.user.name }.flatten
 
@@ -148,7 +154,7 @@ bot.message(start_with: 'compare!') do |event|
   end
 end
 
-bot.message(with_text: 'top-team!') do |event|
+bot.message(content: 'top-team!') do |event|
   hashes = []
   response.values.each do |row|
     break if row[0].nil?
