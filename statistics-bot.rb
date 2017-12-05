@@ -16,6 +16,7 @@ top10! (username)   - Displays the top 10 in the league.
 stats! (username)   - Displays the statistics of a user.
 medals! (username)  - Displays the medal a user has collected.
 compare! (username)  - Compare yourself against another trainer
+top-team!           - Display the top Pokemon Team
   """
 
   event.respond message
@@ -143,4 +144,34 @@ bot.message(start_with: 'compare!') do |event|
   end
 end
 
+bot.message(with_text: 'top-team!') do |event|
+  hashes = []
+  response.values.each do |row|
+    break if row[0].nil?
+    hash =  player_info(row)
+    hashes << {team: hash[:team], total_xp: hash[:total_xp]}
+  end
+
+  message = ''
+  ordered = []
+  teams = hashes.collect { |hash| hash[:team].strip }.uniq
+
+  teams.each do |team|
+    team_members = hashes.collect do |hash|
+      if hash[:team].strip.downcase == team.strip.downcase
+        hash
+      end
+    end.compact
+
+    team_total_xp = team_members.collect { |member| member[:total_xp] }
+    ordered << { team.downcase.to_sym => team_total_xp.reduce(0) { |a,b| a + b } }
+  end
+
+
+  ordered.each_with_index do |team, index|
+    message << "#{index + 1}. #{team.keys.first.capitalize} (#{team.values.first.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP)\n"
+  end
+
+  event.respond message
+end
 bot.run

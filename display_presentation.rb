@@ -7,7 +7,7 @@ def player_info(row)
     start_date: row[4],
     level_40_date: row[5],
     current_level: row[6],
-    total_xp: (row[8].nil?) ? nil : row[8].delete(',').to_i,
+    total_xp: (row[8].nil?) ? 0 : row[8].delete(',').to_i,
     pokemon_seen: row[9],
     pokemon_caught: row[10],
   }
