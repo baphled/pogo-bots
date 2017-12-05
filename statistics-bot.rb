@@ -38,6 +38,7 @@ end
 bot.message(with_text: 'top10!') do |event|
 
   hashes = []
+
   response.values.each do |row|
     break if row[0].nil?
     hashes << player_info(row)
@@ -48,8 +49,7 @@ bot.message(with_text: 'top10!') do |event|
   message = ""
 
   rows.each_with_index do |stats, index|
-
-    message << "#{(index + 1)}) #{stats[:player_tag]} (#{stats[:team]}) - #{stats[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP\n"
+    message << print_top_10(stats, index)
   end
 
   event.respond message
