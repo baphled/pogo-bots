@@ -11,8 +11,8 @@ bot = Discordrb::Bot.new token: ENV['DISCORD_TOKEN']
 bot.message(with_text: 'help!') do |event|
   message = """
 help!               - Displays this message.
-link!               - Useful links relating to the group.
-top10! (username)   - Displays the top 10 in the league.
+links!              - Useful links relating to the group.
+top10!              - Displays the top 10 in the league.
 stats! (username)   - Displays the statistics of a user.
 medals! (username)  - Displays the medal a user has collected.
 compare! (username)  - Compare yourself against another trainer
@@ -174,4 +174,5 @@ bot.message(with_text: 'top-team!') do |event|
 
   event.respond message
 end
+
 bot.run
