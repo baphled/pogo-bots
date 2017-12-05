@@ -28,12 +28,20 @@ RSpec.describe PogoStats::Spreadsheet do
   end
 
   describe '#entries' do
+    let(:expected_array) { values.first }
+    let(:expected_leading_space) { [] }
+    let(:expected_delimiter) { ["ADD STATS BELOW THIS LINE:"] }
+
+    it 'includes the expected entries' do
+      expect(subject.entries).to include(expected_array)
+    end
+
     it 'does not include empty lines' do
-      expect(subject.entries).not_to include([])
+      expect(subject.entries).not_to include(expected_leading_space)
     end
 
     it 'does not include the message line' do
-      expect(subject.entries).not_to include(["ADD STATS BELOW THIS LINE:"])
+      expect(subject.entries).not_to include(expected_delimiter)
     end
   end
 end
