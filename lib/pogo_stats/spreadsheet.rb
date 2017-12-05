@@ -5,6 +5,17 @@ module PogoStats
 
     def initialize(values:)
       self.original_values = values
+
+      self.entries = values
+    end
+
+    def entries=(values)
+      @entries ||= []
+
+      values.each do |row|
+        break if row[0].nil?
+        @entries << row
+      end
     end
   end
 end
