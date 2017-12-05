@@ -127,6 +127,9 @@ bot.message(start_with: 'compare!') do |event|
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_xp] <=> a[:total_xp] }
 
+    leader[:total_xp] = leader[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+    runner_up[:total_xp] = runner_up[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+
     message << print_compare_players(leader, runner_up, :total_xp, 'XP')
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_gyms] <=> a[:total_gyms] }
@@ -170,7 +173,7 @@ bot.message(with_text: 'top-team!') do |event|
 
 
   ordered.each_with_index do |team, index|
-    message << "#{index + 1}. #{team.keys.first.capitalize} (#{team.values.first.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP)\n"
+    message << "#{index + 1}. #{team.keys.first.capitalize} (#{team.values.first.to_s.reverse.gsub(/(\d{4})(?=\d)/, '\\1,').reverse} XP)\n"
   end
 
   event.respond message

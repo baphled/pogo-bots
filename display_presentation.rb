@@ -89,5 +89,13 @@ Last Updated: #{stats[:level_40_date]}
 end
 
 def print_compare_players(leader,runner_up, type, string)
-  "#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{(leader[type] - runner_up[type])} #{string} (#{leader[type]} / #{runner_up[type]})\n"
+  leader_value = leader[type].to_s.gsub(',','').to_i
+  runner_up_value = runner_up[type].to_s.gsub(',','').to_i
+
+  difference_between = (leader_value - runner_up_value).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+
+  leader_value = leader[type].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+  runner_up_value = runner_up[type].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+
+  "#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{difference_between} (#{leader_value} / #{runner_up_value}) #{string}\n"
 end
