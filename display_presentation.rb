@@ -72,7 +72,7 @@ Name: #{stats[:player_tag].capitalize} (#{stats[:team].capitalize})
 
 Current Level: #{stats[:current_level]}
 
-Total XP: #{stats[:total_xp]}
+Total XP: #{stats[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}
 
 Pokemon Caught: #{stats[:pokemon_caught]}
 Pokemon Seen: #{stats[:pokemon_seen]}
