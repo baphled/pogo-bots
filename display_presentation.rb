@@ -99,3 +99,7 @@ def print_compare_players(leader,runner_up, type, string)
 
   "#{leader[:player_tag]} is ahead of #{runner_up[:player_tag]} by #{difference_between} (#{leader_value} / #{runner_up_value}) #{string}\n"
 end
+
+def print_top_team(team, index)
+  "#{index + 1}. #{team[:team].capitalize} #{team[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP (#{team[:players_count]} players)\n"
+end

@@ -132,7 +132,6 @@ bot.message(start_with: 'compare!') do |event|
     their_stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_xp] <=> a[:total_xp] }
-
     message << print_compare_players(leader, runner_up, :total_xp, 'XP')
 
     leader, runner_up = [my_stats, their_stats].sort { |a,b| b[:total_gyms] <=> a[:total_gyms] }
@@ -171,12 +170,16 @@ bot.message(content: 'top-team!') do |event|
     end.compact
 
     team_total_xp = team_members.collect { |member| member[:total_xp] }
-    ordered << { team.downcase.to_sym => team_total_xp.reduce(0) { |a,b| a + b } }
+    team_hash = {
+      team: team.downcase.to_sym,
+      total_xp: team_total_xp.reduce(0) { |a,b| a + b },
+      players_count: team_members.count
+    }
+    ordered << team_hash
   end
 
-
   ordered.each_with_index do |team, index|
-    message << "#{index + 1}. #{team.values.first.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP (#{team.keys.first.capitalize})\n"
+    message << print_top_team(team, index)
   end
 
   event.respond message
