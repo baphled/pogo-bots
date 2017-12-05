@@ -15,32 +15,32 @@ end
 
 def player_medals(row) 
   {
-    collectors: row[11].nil? ? 0 : row[11].delete(',').to_i,
-    jogger: row[12].nil? ? 0 : row[12].delete(',').to_i,
-    scientist: row[13].nil? ? 0 : row[13].delete(',').to_i,
-    breeder: row[14].nil? ? 0 : row[14].delete(',').to_i,
-    backpacker: row[15].nil? ? 0 : row[15].delete(',').to_i,
-    battle_girl: row[16].nil? ? 0 : row[16].delete(',').to_i,
-    ace_trainer: row[17].nil? ? 0 : row[17].delete(',').to_i,
-    youngster: row[18].nil? ? 0 : row[18].delete(',').to_i,
-    pikachu_fan: row[19].nil? ? 0 : row[19].delete(',').to_i,
-    fisherman: row[20].nil? ? 0 : row[20].delete(',').to_i,
-    berry_master: row[21].nil? ? 0 : row[21].delete(',').to_i,
-    gym_leader: row[22].nil? ? 0 : row[22].delete(',').to_i,
-    champion: row[23].nil? ? 0 : row[23].delete(',').to_i,
-    battle_legend: row[24].nil? ? 0 : row[24].delete(',').to_i,
-    total_unique_unown: row[25].nil? ? 0 : row[25].delete(',').to_i
+    collectors: row[12].nil? ? 0 : row[12].delete(',').to_i,
+    jogger: row[13].nil? ? 0 : row[13].delete(',').to_i,
+    scientist: row[14].nil? ? 0 : row[14].delete(',').to_i,
+    breeder: row[15].nil? ? 0 : row[15].delete(',').to_i,
+    backpacker: row[16].nil? ? 0 : row[16].delete(',').to_i,
+    battle_girl: row[17].nil? ? 0 : row[17].delete(',').to_i,
+    ace_trainer: row[18].nil? ? 0 : row[18].delete(',').to_i,
+    youngster: row[19].nil? ? 0 : row[19].delete(',').to_i,
+    pikachu_fan: row[20].nil? ? 0 : row[20].delete(',').to_i,
+    fisherman: row[21].nil? ? 0 : row[21].delete(',').to_i,
+    berry_master: row[22].nil? ? 0 : row[22].delete(',').to_i,
+    gym_leader: row[23].nil? ? 0 : row[23].delete(',').to_i,
+    champion: row[24].nil? ? 0 : row[24].delete(',').to_i,
+    battle_legend: row[25].nil? ? 0 : row[25].delete(',').to_i,
+    total_unique_unown: row[26].nil? ? 0 : row[26].delete(',').to_i
   }
 end
 
 def player_overall_stats(row)
   {
-    total_perfect_pokemon: row[26].to_i,
-    total_unique_perfect_pokemon: row[27].to_i,
-    total_gyms: row[28].to_i,
-    total_golds_gyms: row[29].to_i,
-    total_golds_pokemon_per_type: row[30].to_i,
-    last_updated: row[31]
+    total_perfect_pokemon: row[27].to_i,
+    total_unique_perfect_pokemon: row[28].to_i,
+    total_gyms: row[29].to_i,
+    total_golds_gyms: row[30].to_i,
+    total_golds_pokemon_per_type: row[31].to_i,
+    last_updated: row[32]
   }
 end
 
