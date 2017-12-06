@@ -3,8 +3,10 @@ require 'pry'
 
 require 'discordrb'
 
-require_relative './data_sheet.rb'
-require_relative './display_presentation.rb'
+require_relative './data_sheet'
+require_relative './display_presentation'
+
+require_relative './lib/pogo_stats'
 
 bot = Discordrb::Bot.new token: ENV['DISCORD_TOKEN']
 
@@ -23,7 +25,6 @@ top-team!           - Display the top Pokemon Team
 end
 
 bot.message(with_text: 'boo!') do |event|
-
   event.respond ':mystic:'
 end
 
@@ -36,20 +37,17 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
 end
 
 bot.message(with_text: 'top10!') do |event|
+  spreadsheet = PogoStats::Spreadsheet.new(values: response.values)
+  entries = spreadsheet.entries
 
-  hashes = []
+  players = entries.collect(&:player)
 
-  response.values.each do |row|
-    break if row[0].nil?
-    hashes << player_info(row)
-  end
-
-  rows = hashes.sort { |a,b| b[:total_xp] <=> a[:total_xp] }[0...10]
+  rows = PogoStats::Stats::Player.top_players(amount: 10, players: players)
 
   message = ""
 
   rows.each_with_index do |stats, index|
-    message << print_top_10(stats, index)
+    message << "#{(index + 1)} #{stats.player_tag} (#{stats.team}) - #{stats.total_xp.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP\n"
   end
 
   event.respond message
