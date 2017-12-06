@@ -60,7 +60,7 @@ RSpec.describe PogoStats::Stats::Player do
   end
 
   it 'stores the users current level' do
-    expect(subject.current_level).to eql('40')
+    expect(subject.current_level).to eql('20')
   end
 
   it 'stores the users total XP' do
