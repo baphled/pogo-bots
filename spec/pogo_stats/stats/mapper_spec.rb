@@ -5,7 +5,7 @@ RSpec.describe PogoStats::Stats::Mapper do
     it 'can not be changed' do
       expect{ 
         subject.map = ''
-      }.to raise_error
+      }.to raise_error(NoMethodError)
     end
   end
 end
