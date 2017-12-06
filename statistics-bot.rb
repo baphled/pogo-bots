@@ -38,12 +38,12 @@ end
 
 bot.message(with_text: 'top10!') do |event|
   entries = PogoStats::Spreadsheet.new(values: response.values).entries
+  stats = PogoStats::ValueObject::Stats.new(entries)
 
-  players = PogoStats::Stats::Player.top_players(amount: 10, players: entries.collect(&:player))
-
+  players = PogoStats::Stats::Player.top_players(amount: 10, players: stats.entries)
   presenter = PogoStats::Presenter::Players.new(players)
-  renderer = PogoStats::Renderer::TopPlayer.new(presenter.players)
 
+  renderer = PogoStats::Renderer::TopPlayer.new(presenter.players)
   event.respond renderer.render
 end
 

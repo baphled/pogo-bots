@@ -10,3 +10,6 @@ require 'pogo_stats/presenter/player'
 
 require 'pogo_stats/renderer/top_player'
 
+require 'pogo_stats/value_object/player_statistics'
+require 'pogo_stats/value_object/stats'
+
