@@ -33,7 +33,8 @@ RSpec.describe PogoStats::Stats::Player do
      "23",
      "304",
      "16",
-     "18"
+     "18",
+     "06/12/2017",
     ]
   end
 
