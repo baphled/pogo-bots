@@ -37,20 +37,14 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
 end
 
 bot.message(with_text: 'top10!') do |event|
-  spreadsheet = PogoStats::Spreadsheet.new(values: response.values)
-  entries = spreadsheet.entries
+  entries = PogoStats::Spreadsheet.new(values: response.values).entries
 
-  players = entries.collect(&:player)
+  players = PogoStats::Stats::Player.top_players(amount: 10, players: entries.collect(&:player))
 
-  rows = PogoStats::Stats::Player.top_players(amount: 10, players: players)
+  presenter = PogoStats::Presenter::Players.new(players)
+  renderer = PogoStats::Renderer::TopPlayer.new(presenter.players)
 
-  message = ""
-
-  rows.each_with_index do |stats, index|
-    message << "#{(index + 1)} #{stats.player_tag} (#{stats.team}) - #{stats.total_xp.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP\n"
-  end
-
-  event.respond message
+  event.respond renderer.render
 end
 
 bot.message(starting_with: 'stats!') do |event|
