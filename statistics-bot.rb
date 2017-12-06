@@ -48,7 +48,6 @@ bot.message(with_text: 'top10!') do |event|
 end
 
 bot.message(starting_with: 'stats!') do |event|
-
   # Hack to stop us from triggering the wrong stats message
   if event.message.content.split.count > 1
     expected_name = event.message.content.split.last

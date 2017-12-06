@@ -24,6 +24,10 @@ module PogoStats
 
         self.discord_tag    = values[mapper.map[:discord_tag]]
         self.player_tag     = values[mapper.map[:player_tag]]
+
+        #
+        # Comparable attributes
+        #
         self.start_date     = values[mapper.map[:start_date]]
 
         self.current_level  = values[mapper.map[:current_level]]
@@ -34,9 +38,12 @@ module PogoStats
         self.pokemon_caught = values[mapper.map[:pokemon_caught]]
       end
 
-      def self.top_players(players:, amount: 10)
+      #
+      # TODO: Move this to a better home.
+      #
+      def self.top_players(players:, compare: :total_xp, amount: 10)
         rows = players.sort do |entry_a, entry_b|
-          entry_b.total_xp <=> entry_a.total_xp
+          entry_b.public_send(compare) <=> entry_a.public_send(compare)
         end
 
         rows[0...amount.to_i]

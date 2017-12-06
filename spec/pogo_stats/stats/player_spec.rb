@@ -8,7 +8,7 @@ RSpec.describe PogoStats::Stats::Player do
      "baphled",
      "14/07/2016",
      "20/06/2017",
-     "40",
+     "20",
      "",
      "39,511,435",
      "252",
@@ -137,7 +137,18 @@ RSpec.describe PogoStats::Stats::Player do
     end
 
     context 'comparable fields' do
-      it 'handles XP'
+      it 'can compare XP' do
+        expect(subject.top_players(players: players, compare: :total_xp)).to eql([first_player, second_player])
+      end
+
+      it 'can compare level' do
+        expect(subject.top_players(players: players, compare: :current_level)).to eql([second_player, first_player])
+      end
+
+      it 'can compare total gold gyms'
+
+      it 'handles fields that can not be compared'
+      it 'handles fields that do not exist'
     end
   end
 
