@@ -37,6 +37,8 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
 end
 
 bot.message(with_text: 'top10!') do |event|
+  # TODO: Wrap this so that we can cover it with integration tests
+
   entries = PogoStats::Spreadsheet.new(values: response.values).entries
   stats = PogoStats::ValueObject::Stats.new(entries)
 
