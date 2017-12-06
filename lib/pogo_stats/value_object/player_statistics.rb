@@ -14,6 +14,8 @@ module PogoStats
       attr_accessor :pokemon_seen
       attr_accessor:pokemon_caught
 
+      attr_accessor:collectors
+
 
       def initialize(entry)
         self.name = entry.player.name
@@ -29,6 +31,8 @@ module PogoStats
 
         self.pokemon_seen = entry.player.pokemon_seen
         self.pokemon_caught = entry.player.pokemon_caught
+
+        self.collectors = entry.medals.collectors
       end
     end
   end

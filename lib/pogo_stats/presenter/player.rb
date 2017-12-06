@@ -8,6 +8,9 @@ module PogoStats
       attr_reader :start_date
       attr_reader :current_level
       attr_reader :total_xp
+
+      attr_reader :collectors
+
       attr_reader :pokemon_seen, :pokemon_caught
 
       protected
@@ -19,6 +22,7 @@ module PogoStats
       attr_writer :start_date
       attr_writer :current_level
       attr_writer :total_xp
+      attr_writer :collectors
       attr_writer :pokemon_seen, :pokemon_caught
 
       def initialize(player)
@@ -29,11 +33,14 @@ module PogoStats
         self.team = player.team
 
         self.start_date = player.start_date
+
         self.current_level = player.current_level
         self.total_xp = player.total_xp.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
 
-        self.pokemon_seen = player.pokemon_seen.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
-        self.pokemon_caught = player.pokemon_caught.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        self.pokemon_seen = player.pokemon_seen.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        self.pokemon_caught = player.pokemon_caught.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+
+        self.collectors = player.collectors.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
       end
     end
   end

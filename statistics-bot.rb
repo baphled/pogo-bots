@@ -40,13 +40,16 @@ bot.message(with_text: 'top10!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
   # TODO: Enhance so that we can vary how we calculate the top 10
 
+  compare = :total_xp
+  postfix = 'XP'
+
   entries = PogoStats::Spreadsheet.new(values: response.values).entries
   stats = PogoStats::ValueObject::Stats.new(entries)
 
-  players = PogoStats::Stats::Player.top_players(amount: 10, players: stats.entries)
+  players = PogoStats::Stats::Player.top_players(amount: 10, compare: compare, players: stats.entries)
   presenter = PogoStats::Presenter::Players.new(players)
 
-  renderer = PogoStats::Renderer::TopPlayer.new(presenter.players)
+  renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
   event.respond renderer.render
 end
 
