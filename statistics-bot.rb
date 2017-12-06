@@ -40,8 +40,12 @@ bot.message(with_text: 'top10!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
   # TODO: Enhance so that we can vary how we calculate the top 10
 
-  compare = :total_xp
-  postfix = 'XP'
+  selector_type = 'total xp'.gsub(' ', '_').to_sym
+
+  selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type)
+
+  compare = selector_hash[:type]
+  postfix = selector_hash[:postfix]
 
   entries = PogoStats::Spreadsheet.new(values: response.values).entries
   stats = PogoStats::ValueObject::Stats.new(entries)
