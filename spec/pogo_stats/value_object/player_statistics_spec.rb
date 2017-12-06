@@ -11,13 +11,32 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
       total_xp: 40_000_000,
       pokemon_seen: 249,
       pokemon_caught: 252,
-      start_date: '14/07/2016',
+      start_date: '14/06/2016',
     )
   end
 
   let(:medals) do
     double(
-      collectors: 1
+      collectors: 1,
+      jogger: 10_000,
+      scientist: 25,
+      breeder: 25_000,
+      backpacker: 45,
+      battle_girl: 45_000,
+      youngster: 200,
+      pikachu_fan: 500,
+      fisherman: 111,
+      berry_master: 11_100,
+      gym_leader: 13971,
+      champion: 171,
+      battle_legend: 251,
+      total_unique_unown: 8,
+      total_perfect_pokemon: 25,
+      total_unique_perfect_pokemon: 23,
+      total_gyms: 304,
+      total_golds_gyms: 16,
+      total_golds_pokemon_per_type: 18,
+      last_updated: '06/12/2017',
     )
   end
 
@@ -47,10 +66,6 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
     expect(subject.team).to eql('Mystic')
   end
 
-  it 'has a start_date' do
-    expect(subject.start_date).to eql('14/07/2016')
-  end
-
   it 'has a current_level' do
     expect(subject.current_level).to eql(40)
   end
@@ -67,8 +82,88 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
     expect(subject.pokemon_caught).to eql(252)
   end
 
+  it 'has a start_date' do
+    expect(subject.start_date).to eql('14/06/2016')
+  end
+
   it 'has collectors' do
     expect(subject.collectors).to eql(1)
+  end
+
+  it 'has jogger' do
+    expect(subject.jogger).to eql(10_000)
+  end
+
+  it 'has scientist' do
+    expect(subject.scientist).to eql(25)
+  end
+
+  it 'has breeder' do
+    expect(subject.breeder).to eql(25_000)
+  end
+
+  it 'has backpacker' do
+    expect(subject.backpacker).to eql(45)
+  end
+
+  it 'has battle_girl' do
+    expect(subject.battle_girl).to eql(45_000)
+  end
+
+  it 'has youngster' do
+    expect(subject.battle_girl).to eql(45_000)
+  end
+
+  it 'has pikachu_fan' do
+    expect(subject.pikachu_fan).to eql(500)
+  end
+
+  it 'has fisherman' do
+    expect(subject.fisherman).to eql(111)
+  end
+
+  it 'has berry_master' do
+    expect(subject.berry_master).to eql(11_100)
+  end
+
+  it 'stores the gym_leader medal' do
+    expect(subject.gym_leader).to eql(13971)
+  end
+
+  it 'stores the champion medal' do
+    expect(subject.champion).to eql(171)
+  end
+
+  it 'stores the battle_legend medal' do
+    expect(subject.battle_legend).to eql(251)
+  end
+
+  it 'stores the total_unique_unown medal' do
+    expect(subject.total_unique_unown).to eql(8)
+  end
+
+  it 'stores the total_perfect_pokemon' do
+    expect(subject.total_perfect_pokemon).to eql(25)
+  end
+
+  it 'stores the total_unique_perfect_pokemon' do
+    expect(subject.total_unique_perfect_pokemon).to eql(23)
+  end
+
+  it 'stores the total_gyms' do
+    expect(subject.total_gyms).to eql(304)
+  end
+
+  it 'stores the total_golds_gyms' do
+    expect(subject.total_golds_gyms).to eql(16)
+  end
+
+  it 'stores the total_golds_pokemon_per_type' do
+    expect(subject.total_golds_pokemon_per_type).to eql(18)
+  end
+
+  it 'stores the last_updated' do
+    expect(subject.last_updated).to eql('06/12/2017')
   end
 
   describe '#new' do

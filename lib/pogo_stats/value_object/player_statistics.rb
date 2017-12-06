@@ -12,10 +12,29 @@ module PogoStats
       attr_accessor :current_level
       attr_accessor :total_xp
       attr_accessor :pokemon_seen
-      attr_accessor:pokemon_caught
+      attr_accessor :pokemon_caught
 
-      attr_accessor:collectors
+      attr_accessor :collectors
+      attr_accessor :jogger
+      attr_accessor :scientist
+      attr_accessor :breeder
+      attr_accessor :backpacker
+      attr_accessor :battle_girl
+      attr_accessor :youngster
+      attr_accessor :pikachu_fan
+      attr_accessor :fisherman
+      attr_accessor :berry_master
+      attr_accessor :gym_leader
+      attr_accessor :champion
+      attr_accessor :battle_legend
+      attr_accessor :total_unique_unown
 
+      attr_accessor :total_perfect_pokemon
+      attr_accessor :total_unique_perfect_pokemon
+      attr_accessor :total_gyms
+      attr_accessor :total_golds_gyms
+      attr_accessor :total_golds_pokemon_per_type
+      attr_accessor :last_updated
 
       def initialize(entry)
         self.name = entry.player.name
@@ -33,6 +52,27 @@ module PogoStats
         self.pokemon_caught = entry.player.pokemon_caught
 
         self.collectors = entry.medals.collectors
+        self.jogger = entry.medals.jogger
+        self.scientist = entry.medals.scientist
+        self.breeder = entry.medals.breeder
+        self.backpacker = entry.medals.backpacker
+        self.battle_girl = entry.medals.battle_girl
+        self.youngster = entry.medals.youngster
+        self.pikachu_fan = entry.medals.pikachu_fan
+        self.fisherman = entry.medals.fisherman
+        self.berry_master = entry.medals.berry_master
+        self.gym_leader = entry.medals.gym_leader
+        self.champion = entry.medals.champion
+        self.battle_legend = entry.medals.battle_legend
+        self.total_unique_unown = entry.medals.total_unique_unown
+
+        self.total_perfect_pokemon = entry.medals.total_perfect_pokemon
+        self.total_unique_perfect_pokemon = entry.medals.total_unique_perfect_pokemon
+        self.total_gyms = entry.medals.total_gyms
+        self.total_golds_gyms = entry.medals.total_golds_gyms
+        self.total_golds_pokemon_per_type = entry.medals.total_golds_pokemon_per_type
+
+        self.last_updated = entry.medals.last_updated
       end
     end
   end
