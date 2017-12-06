@@ -39,19 +39,63 @@ RSpec.describe PogoStats::Stats::Medals do
 
   subject { described_class.new(entry) }
 
-  it 'stores the player\'s collectors medal'
-  it 'stores the player\'s jogger medal'
-  it 'stores the player\'s scientist medal'
-  it 'stores the player\'s breeder medal'
-  it 'stores the player\'s backpacker medal'
-  it 'stores the player\'s battle girl medal'
-  it 'stores the player\'s ace trainer medal'
-  it 'stores the player\'s youngster medal'
-  it 'stores the player\'s pikachu fan medal'
-  it 'stores the player\'s fisherman medal'
-  it 'stores the player\'s berry_master medal'
-  it 'stores the player\'s gym_leader medal'
-  it 'stores the player\'s champion medal'
-  it 'stores the player\'s battle_legend medal'
-  it 'stores the player\'s total_unique_unown medal'
+  it 'stores the collectors medal' do
+    expect(subject.collectors).to eql(56363)
+  end
+
+  it 'stores the jogger medal' do
+    expect(subject.jogger).to eql(3208)
+  end
+
+  it 'stores the scientist medal' do
+    expect(subject.scientist).to eql(7235)
+  end
+
+  it 'stores the breeder medal' do
+    expect(subject.breeder).to eql(4240)
+  end
+
+  it 'stores the backpacker medal' do
+    expect(subject.backpacker).to eql(46199)
+  end
+
+  it 'stores the battle girl medal' do
+    expect(subject.battle_girl).to eql(8515)
+  end
+
+  it 'stores the ace trainer medal' do
+    expect(subject.ace_trainer).to eql(3255)
+  end
+
+  it 'stores the youngster medal' do
+    expect(subject.youngster).to eql(323)
+  end
+
+  it 'stores the pikachu fan medal' do
+    expect(subject.pikachu_fan).to eql(380)
+  end
+
+  it 'stores the fisherman medal' do
+    expect(subject.fisherman).to eql(216)
+  end
+
+  it 'stores the berry_master medal' do
+    expect(subject.berry_master).to eql(15502)
+  end
+
+  it 'stores the gym_leader medal' do
+    expect(subject.gym_leader).to eql(13971)
+  end
+
+  it 'stores the champion medal' do
+    expect(subject.champion).to eql(171)
+  end
+
+  it 'stores the battle_legend medal' do
+    expect(subject.battle_legend).to eql(251)
+  end
+
+  it 'stores the total_unique_unown medal' do
+    expect(subject.total_unique_unown).to eql(8)
+  end
 end
