@@ -61,7 +61,7 @@ RSpec.describe PogoStats::Stats::Player do
   end
 
   it 'stores the users current level' do
-    expect(subject.current_level).to eql('20')
+    expect(subject.current_level).to eql(20)
   end
 
   it 'stores the users total XP' do
@@ -69,11 +69,11 @@ RSpec.describe PogoStats::Stats::Player do
   end
 
   it 'stores the pokemon the user has seen' do
-    expect(subject.pokemon_seen).to eql('252')
+    expect(subject.pokemon_seen).to eql(252)
   end
 
   it 'stores the pokemon the user has caught' do
-    expect(subject.pokemon_caught).to eql('249')
+    expect(subject.pokemon_caught).to eql(249)
   end
 
   describe '#top_players' do
@@ -109,7 +109,8 @@ RSpec.describe PogoStats::Stats::Player do
        "13",
        "104",
        "16",
-       "18"
+       "18",
+       "23/09/2017",
       ]
     end
 

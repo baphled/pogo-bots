@@ -30,12 +30,12 @@ module PogoStats
         #
         self.start_date     = values[mapper.map[:start_date]]
 
-        self.current_level  = values[mapper.map[:current_level]]
+        self.current_level  = values[mapper.map[:current_level]].to_i
 
         self.total_xp       = values[mapper.map[:total_xp]].delete(',').to_i
 
-        self.pokemon_seen   = values[mapper.map[:pokemon_seen]]
-        self.pokemon_caught = values[mapper.map[:pokemon_caught]]
+        self.pokemon_seen   = values[mapper.map[:pokemon_seen]].delete(',').to_i
+        self.pokemon_caught = values[mapper.map[:pokemon_caught]].delete(',').to_i
       end
 
       #
