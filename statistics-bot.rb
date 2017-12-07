@@ -38,6 +38,7 @@ end
 
 bot.message(starting_with: 'top!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
+  # TODO: Implement an arguement parse to handle messages we intercept
 
   if event.message.content.split.count > 1
     # Grab the comparison field. Could be delimited by spaces
