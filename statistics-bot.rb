@@ -14,7 +14,7 @@ bot.message(with_text: 'help!') do |event|
   message = """
 help!               - Displays this message.
 links!              - Useful links relating to the group.
-top10!              - Displays the top 10 in the league.
+top! amount (field) - Displays the top 10 in the league.
 stats! (username)   - Displays the statistics of a user.
 medals! (username)  - Displays the medal a user has collected.
 compare! (username)  - Compare yourself against another trainer
@@ -36,13 +36,15 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
   event.respond links
 end
 
-bot.message(starting_with: 'top10!') do |event|
+bot.message(starting_with: 'top!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
 
   if event.message.content.split.count > 1
-    selector_type = event.message.content.split[1..-1].join(' ')
+    selector_type = event.message.content.split[2..-1].join(' ')
+    limiter = event.message.content.split[1]
   else
     selector_type = 'total xp'
+    limiter = 10
   end
 
   selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.gsub(' ','_').to_sym)
@@ -63,7 +65,7 @@ bot.message(starting_with: 'top10!') do |event|
     entries = PogoStats::Spreadsheet.new(values: response.values).entries
     stats = PogoStats::ValueObject::Stats.new(entries)
 
-    players = PogoStats::Stats::Player.top_players(amount: 10, compare: compare, players: stats.entries)
+    players = PogoStats::Stats::Player.top_players(amount: limiter, compare: compare, players: stats.entries)
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
