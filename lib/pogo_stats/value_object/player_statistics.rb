@@ -6,13 +6,17 @@ module PogoStats
       attr_accessor :player_tag
       attr_accessor :team
 
-      # Comparable attributes
+      attr_accessor :last_updated
 
       attr_accessor :start_date
       attr_accessor :current_level
-      attr_accessor :total_xp
+
       attr_accessor :pokemon_seen
       attr_accessor :pokemon_caught
+
+      # Comparable attributes
+
+      attr_accessor :total_xp
 
       attr_accessor :collectors
       attr_accessor :jogger
@@ -25,6 +29,7 @@ module PogoStats
       attr_accessor :fisherman
       attr_accessor :berry_master
       attr_accessor :gym_leader
+      attr_accessor :ace_trainer
       attr_accessor :champion
       attr_accessor :battle_legend
       attr_accessor :total_unique_unown
@@ -34,7 +39,6 @@ module PogoStats
       attr_accessor :total_gyms
       attr_accessor :total_golds_gyms
       attr_accessor :total_golds_pokemon_per_type
-      attr_accessor :last_updated
 
       def initialize(entry)
         self.name = entry.player.name
@@ -46,10 +50,11 @@ module PogoStats
         self.start_date = entry.player.start_date
 
         self.current_level = entry.player.current_level
-        self.total_xp = entry.player.total_xp
 
         self.pokemon_seen = entry.player.pokemon_seen
         self.pokemon_caught = entry.player.pokemon_caught
+
+        self.total_xp = entry.player.total_xp
 
         self.collectors = entry.medals.collectors
         self.jogger = entry.medals.jogger
@@ -62,17 +67,18 @@ module PogoStats
         self.fisherman = entry.medals.fisherman
         self.berry_master = entry.medals.berry_master
         self.gym_leader = entry.medals.gym_leader
+        self.ace_trainer = entry.medals.ace_trainer
         self.champion = entry.medals.champion
         self.battle_legend = entry.medals.battle_legend
         self.total_unique_unown = entry.medals.total_unique_unown
 
-        self.total_perfect_pokemon = entry.medals.total_perfect_pokemon
-        self.total_unique_perfect_pokemon = entry.medals.total_unique_perfect_pokemon
-        self.total_gyms = entry.medals.total_gyms
-        self.total_golds_gyms = entry.medals.total_golds_gyms
-        self.total_golds_pokemon_per_type = entry.medals.total_golds_pokemon_per_type
+        self.total_perfect_pokemon = entry.overall.total_perfect_pokemon
+        self.total_unique_perfect_pokemon = entry.overall.total_unique_perfect_pokemon
+        self.total_gyms = entry.overall.total_gyms
+        self.total_golds_gyms = entry.overall.total_golds_gyms
+        self.total_golds_pokemon_per_type = entry.overall.total_golds_pokemon_per_type
 
-        self.last_updated = entry.medals.last_updated
+        self.last_updated = entry.overall.last_updated
       end
     end
   end

@@ -36,25 +36,39 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
   event.respond links
 end
 
-bot.message(with_text: 'top10!') do |event|
+bot.message(starting_with: 'top10!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
-  # TODO: Enhance so that we can vary how we calculate the top 10
 
-  selector_type = 'total xp'.gsub(' ', '_').to_sym
+  if event.message.content.split.count > 1
+    selector_type = event.message.content.split[1..-1].join(' ')
+  else
+    selector_type = 'total xp'
+  end
 
-  selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type)
+  selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.gsub(' ','_').to_sym)
 
-  compare = selector_hash[:type]
-  postfix = selector_hash[:postfix]
+  if selector_hash.nil?
+    event.respond "Can not compare type: #{selector_type}"
+    event.respond "Possible values to compare:"
 
-  entries = PogoStats::Spreadsheet.new(values: response.values).entries
-  stats = PogoStats::ValueObject::Stats.new(entries)
+    comparision_strings = ''
+    PogoStats::Stats::ComparisonSelector.available_stats.each do |available_stat|
+      comparision_strings << "- #{available_stat}\n"
+    end
+    event.respond comparision_strings
+  else
+    compare = selector_hash[:type]
+    postfix = selector_hash[:postfix]
 
-  players = PogoStats::Stats::Player.top_players(amount: 10, compare: compare, players: stats.entries)
-  presenter = PogoStats::Presenter::Players.new(players)
+    entries = PogoStats::Spreadsheet.new(values: response.values).entries
+    stats = PogoStats::ValueObject::Stats.new(entries)
 
-  renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
-  event.respond renderer.render
+    players = PogoStats::Stats::Player.top_players(amount: 10, compare: compare, players: stats.entries)
+    presenter = PogoStats::Presenter::Players.new(players)
+
+    renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
+    event.respond renderer.render
+  end
 end
 
 bot.message(starting_with: 'stats!') do |event|

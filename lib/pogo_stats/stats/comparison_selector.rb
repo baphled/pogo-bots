@@ -1,7 +1,7 @@
 module PogoStats
   module Stats
     class ComparisonSelector
-      def self.find(selector_type)
+      def self.comparable_array
         [
           {
             type: :total_xp,
@@ -14,10 +14,6 @@ module PogoStats
           {
             type: :jogger,
             postfix: 'Distance walked'
-          },
-          {
-            type: :scientist,
-            postfix: 'Pokemon Evolved'
           },
           {
             type: :scientist,
@@ -60,6 +56,10 @@ module PogoStats
             postfix: 'Raids Won'
           },
           {
+            type: :ace_trainer,
+            postfix: 'Gyms Trained'
+          },
+          {
             type: :battle_legend,
             postfix: 'Legenday Raids Won'
           },
@@ -87,7 +87,15 @@ module PogoStats
             type: :total_golds_gyms,
             postfix: 'Total Gold Gyms Held'
           },
-        ].find { |a| a[:type] == selector_type}
+        ]
+      end
+
+      def self.find(selector_type)
+        comparable_array.find { |a| a[:type] == selector_type}
+      end
+
+      def self.available_stats
+        comparable_array.collect { |key|  key[:type] }
       end
     end
   end

@@ -28,9 +28,15 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
       fisherman: 111,
       berry_master: 11_100,
       gym_leader: 13971,
+      ace_trainer: 234,
       champion: 171,
       battle_legend: 251,
       total_unique_unown: 8,
+    )
+  end
+
+  let(:overall) do
+    double(
       total_perfect_pokemon: 25,
       total_unique_perfect_pokemon: 23,
       total_gyms: 304,
@@ -38,10 +44,6 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
       total_golds_pokemon_per_type: 18,
       last_updated: '06/12/2017',
     )
-  end
-
-  let(:overall) do
-    double()
   end
 
   let(:entry) do
@@ -84,6 +86,10 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
 
   it 'has a start_date' do
     expect(subject.start_date).to eql('14/06/2016')
+  end
+
+  it 'has ace trainer' do
+    expect(subject.ace_trainer).to eql(234)
   end
 
   it 'has collectors' do

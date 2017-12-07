@@ -83,4 +83,16 @@ RSpec.describe PogoStats::Stats::ComparisonSelector do
       expect(subject.find(:total_golds_gyms)).to eql({type: :total_golds_gyms, postfix: 'Total Gold Gyms Held'})
     end
   end
+
+  describe '.available_stats' do
+    subject { described_class }
+
+    it 'includes total_xp' do
+      expect(subject.available_stats).to include(:total_xp)
+    end
+    
+    it 'does not include assignment methods' do
+      expect(subject.available_stats).not_to include(:total_xp=)
+    end
+  end
 end
