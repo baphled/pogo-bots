@@ -50,14 +50,10 @@ bot.message(starting_with: 'top!') do |event|
   selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.gsub(' ','_').to_sym)
 
   if selector_hash.nil?
-    event.respond "Can not compare type: #{selector_type}"
-    event.respond "Possible values to compare:"
+    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
+    renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
 
-    comparision_strings = ''
-    PogoStats::Stats::ComparisonSelector.available_stats.each do |available_stat|
-      comparision_strings << "- #{available_stat}\n"
-    end
-    event.respond comparision_strings
+    event.respond renderer.render
   else
     compare = selector_hash[:type]
     postfix = selector_hash[:postfix]
@@ -69,6 +65,7 @@ bot.message(starting_with: 'top!') do |event|
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
+
     event.respond renderer.render
   end
 end
