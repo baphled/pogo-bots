@@ -40,20 +40,27 @@ bot.message(starting_with: 'top!') do |event|
   # TODO: Wrap this so that we can cover it with integration tests
 
   if event.message.content.split.count > 1
+    # Grab the comparison field. Could be delimited by spaces
     selector_type = event.message.content.split[2..-1].join(' ')
+    # If we have a field we must have an amount
+
     limiter = event.message.content.split[1]
+
+    if selector_type.nil? || selector_type.empty?
+      selector_type = 'total_xp'
+    end
   else
-    selector_type = 'total xp'
+    selector_type = 'total_xp'
     limiter = 10
   end
 
   selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.gsub(' ','_').to_sym)
 
+  renderer = :not_yet_defined
+
   if selector_hash.nil?
     available_stats = PogoStats::Stats::ComparisonSelector.available_stats
     renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
-
-    event.respond renderer.render
   else
     compare = selector_hash[:type]
     postfix = selector_hash[:postfix]
@@ -65,9 +72,9 @@ bot.message(starting_with: 'top!') do |event|
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
-
-    event.respond renderer.render
   end
+
+  event.respond renderer.render
 end
 
 bot.message(starting_with: 'stats!') do |event|
