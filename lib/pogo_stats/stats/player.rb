@@ -1,6 +1,6 @@
 module PogoStats
   module Stats
-    class Player
+    class Player < PogoStats::Stats::Base
       attr_accessor:mapper
 
       attr_accessor :name
@@ -17,25 +17,24 @@ module PogoStats
       attr_accessor :pokemon_seen, :pokemon_caught
 
       def initialize(values)
-        self.mapper         = PogoStats::Stats::Mapper
+        super
+        self.name           = sanitise_string(:name)
+        self.team           = sanitise_string(:team)
 
-        self.name           = values[mapper.map[:name]]
-        self.team           = values[mapper.map[:team]]
-
-        self.discord_tag    = values[mapper.map[:discord_tag]]
-        self.player_tag     = values[mapper.map[:player_tag]]
+        self.discord_tag    = sanitise_string(:discord_tag)
+        self.player_tag     = sanitise_string(:player_tag)
 
         #
         # Comparable attributes
         #
-        self.start_date     = values[mapper.map[:start_date]]
+        self.start_date     = sanitise_string(:start_date)
 
-        self.current_level  = values[mapper.map[:current_level]].to_i
+        self.current_level  = sanitise_number(:current_level)
 
-        self.total_xp       = values[mapper.map[:total_xp]].delete(',').to_i
+        self.total_xp       = sanitise_number(:total_xp)
 
-        self.pokemon_seen   = values[mapper.map[:pokemon_seen]].delete(',').to_i
-        self.pokemon_caught = values[mapper.map[:pokemon_caught]].delete(',').to_i
+        self.pokemon_seen   = sanitise_number(:pokemon_seen)
+        self.pokemon_caught = sanitise_number(:pokemon_caught)
       end
 
       #

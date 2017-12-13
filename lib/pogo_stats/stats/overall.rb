@@ -1,6 +1,6 @@
 module PogoStats
   module Stats
-    class Overall
+    class Overall < PogoStats::Stats::Base
       attr_accessor :total_perfect_pokemon
       attr_accessor :total_unique_perfect_pokemon
       attr_accessor :total_gyms
@@ -11,15 +11,15 @@ module PogoStats
       attr_accessor :mapper
 
       def initialize(values)
-        self.mapper    = PogoStats::Stats::Mapper
+        super
 
-        self.total_perfect_pokemon = values[mapper.map[:total_perfect_pokemon]].to_i
-        self.total_unique_perfect_pokemon = values[mapper.map[:total_unique_perfect_pokemon]].to_i
-        self.total_gyms = values[mapper.map[:total_gyms]].to_i
-        self.total_golds_gyms = values[mapper.map[:total_golds_gyms]].to_i
-        self.total_golds_pokemon_per_type = values[mapper.map[:total_golds_pokemon_per_type]].to_i
+        self.total_perfect_pokemon        = sanitise_number(:total_perfect_pokemon)
+        self.total_unique_perfect_pokemon = sanitise_number(:total_unique_perfect_pokemon)
+        self.total_gyms                   = sanitise_number(:total_gyms)
+        self.total_golds_gyms             = sanitise_number(:total_golds_gyms)
+        self.total_golds_pokemon_per_type = sanitise_number(:total_golds_pokemon_per_type)
 
-        self.last_updated = values[mapper.map[:last_updated]]
+        self.last_updated                 = sanitise_string(:last_updated)
       end
     end
   end

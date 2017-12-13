@@ -1,6 +1,6 @@
 module PogoStats
   module Stats
-    class Medals
+    class Medals < PogoStats::Stats::Base
       attr_accessor :collectors
       attr_accessor :jogger
       attr_accessor :scientist
@@ -17,26 +17,24 @@ module PogoStats
       attr_accessor :battle_legend
       attr_accessor :total_unique_unown
 
-      attr_accessor :mapper
-
       def initialize(values)
-        self.mapper    = PogoStats::Stats::Mapper
+        super
 
-        self.collectors = values[mapper.map[:collectors]].delete(',').to_i
-        self.jogger = values[mapper.map[:jogger]].delete(',').to_i
-        self.scientist = values[mapper.map[:scientist]].delete(',').to_i
-        self.breeder = values[mapper.map[:breeder]].delete(',').to_i
-        self.backpacker = values[mapper.map[:backpacker]].delete(',').to_i
-        self.battle_girl = values[mapper.map[:battle_girl]].delete(',').to_i
-        self.ace_trainer = values[mapper.map[:ace_trainer]].delete(',').to_i
-        self.youngster = values[mapper.map[:youngster]].delete(',').to_i
-        self.pikachu_fan = values[mapper.map[:pikachu_fan]].delete(',').to_i
-        self.fisherman = values[mapper.map[:fisherman]].delete(',').to_i
-        self.berry_master = values[mapper.map[:berry_master]].delete(',').to_i
-        self.gym_leader = values[mapper.map[:gym_leader]].delete(',').to_i
-        self.champion = values[mapper.map[:champion]].delete(',').to_i
-        self.battle_legend = values[mapper.map[:battle_legend]].delete(',').to_i
-        self.total_unique_unown = values[mapper.map[:total_unique_unown]].delete(',').to_i
+        self.collectors         = sanitise_number(:collectors)
+        self.jogger             = sanitise_number(:jogger)
+        self.scientist          = sanitise_number(:scientist)
+        self.breeder            = sanitise_number(:breeder)
+        self.backpacker         = sanitise_number(:backpacker)
+        self.battle_girl        = sanitise_number(:battle_girl)
+        self.ace_trainer        = sanitise_number(:ace_trainer)
+        self.youngster          = sanitise_number(:youngster)
+        self.pikachu_fan        = sanitise_number(:pikachu_fan)
+        self.fisherman          = sanitise_number(:fisherman)
+        self.berry_master       = sanitise_number(:berry_master)
+        self.gym_leader         = sanitise_number(:gym_leader)
+        self.champion           = sanitise_number(:champion)
+        self.battle_legend      = sanitise_number(:battle_legend)
+        self.total_unique_unown = sanitise_number(:total_unique_unown)
       end
     end
   end
