@@ -12,13 +12,13 @@ bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '
 
 bot.message(with_text: 'help!') do |event|
   message = """
-help!               - Displays this message.
-links!              - Useful links relating to the group.
+!help               - Displays this message.
+!links              - Useful links relating to the group.
 !top amount (field) - Displays the top 10 in the league.
 !user (username)   - Displays the statistics of a user.
 !medals (username)  - Displays the medal a user has collected.
-compare! (username)  - Compare yourself against another trainer
-top-team!           - Display the top Pokemon Team
+!compare (username)  - Compare yourself against another trainer
+!top-team           - Display the top Pokemon Team
   """
 
   event.respond message
@@ -103,7 +103,7 @@ bot.command(:medals, min_args: 0, max_args: 1, description: 'Display a discord u
   nil
 end
 
-bot.message(start_with: 'compare!') do |event|
+bot.message(start_with: '!compare') do |event|
   expected_name = event.message.content.split.last
 
   row = response.values.select { |stats| stats[3] == expected_name }.flatten
@@ -137,7 +137,7 @@ bot.message(start_with: 'compare!') do |event|
   end
 end
 
-bot.message(content: 'top-team!') do |event|
+bot.message(content: '!top-team') do |event|
   hashes = []
   response.values.each do |row|
     break if row[0].nil?
