@@ -1,5 +1,7 @@
 module PogoStats
   module Stats
+    class InvalidComparison < Exception; end
+
     class ComparisonSelector
       def self.comparable_array
         [
@@ -91,7 +93,12 @@ module PogoStats
       end
 
       def self.find(selector_type)
-        comparable_array.find { |a| a[:type] == selector_type}
+        found = comparable_array.find { |a| a[:type] == selector_type}
+        if found.empty?
+          raise(PogoStats::Stats::InvalidComparison)
+        else
+          found
+        end
       end
 
       def self.available_stats

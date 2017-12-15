@@ -10,6 +10,7 @@ module PogoStats
       attr_accessor :player_tag
 
       attr_accessor :start_date
+      attr_accessor :level_40_date
 
       attr_accessor :current_level
       attr_accessor :total_xp
@@ -28,6 +29,7 @@ module PogoStats
         # Comparable attributes
         #
         self.start_date     = sanitise_string(:start_date)
+        self.level_40_date  = sanitise_string(:level_40_date)
 
         self.current_level  = sanitise_number(:current_level)
 

@@ -6,6 +6,7 @@ module PogoStats
       attr_reader :discord_tag
       attr_reader :player_tag
       attr_reader :start_date
+      attr_reader :level_40_date
       attr_reader :current_level
       attr_reader :total_xp
 
@@ -44,6 +45,7 @@ module PogoStats
       attr_writer :discord_tag
       attr_writer :player_tag
       attr_writer :start_date
+      attr_writer :level_40_date
       attr_writer :current_level
       attr_writer :total_xp
       attr_writer :ace_trainer
@@ -80,6 +82,7 @@ module PogoStats
         self.team = player.team
 
         self.start_date = player.start_date
+        self.level_40_date = player.level_40_date
 
         self.current_level = player.current_level
         self.total_xp = player.total_xp.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
@@ -110,7 +113,7 @@ module PogoStats
         self.total_golds_gyms = player.total_golds_gyms.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
         self.total_golds_pokemon_per_type = player.total_golds_pokemon_per_type.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
 
-        self.last_updated = player.last_updated.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        self.last_updated = player.last_updated
       end
     end
   end

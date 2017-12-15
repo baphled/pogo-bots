@@ -8,7 +8,7 @@ require_relative './display_presentation'
 
 require_relative './lib/pogo_stats'
 
-bot = Discordrb::Bot.new token: ENV['DISCORD_TOKEN']
+bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '!'
 
 bot.message(with_text: 'help!') do |event|
   message = """
@@ -36,33 +36,20 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
   event.respond links
 end
 
-bot.message(starting_with: 'top!') do |event|
-  # TODO: Wrap this so that we can cover it with integration tests
-  # TODO: Implement an arguement parse to handle messages we intercept
-
-  if event.message.content.split.count > 1
-    # Grab the comparison field. Could be delimited by spaces
-    selector_type = event.message.content.split[2..-1].join(' ')
-    # If we have a field we must have an amount
-
-    limiter = event.message.content.split[1]
-
-    if selector_type.nil? || selector_type.empty?
-      selector_type = 'total_xp'
-    end
-  else
-    selector_type = 'total_xp'
+bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top trainers based on a given stat') do |event, limiter, selector_type|
+  if not limiter
     limiter = 10
   end
 
-  selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.gsub(' ','_').to_sym)
+  if not selector_type
+    selector_type = :total_xp
+  end
 
-  renderer = :not_yet_defined
+  begin
+    selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.to_s.gsub(' ','_').to_sym)
 
-  if selector_hash.nil?
-    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
-    renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
-  else
+    renderer = :not_yet_defined
+
     compare = selector_hash[:type]
     postfix = selector_hash[:postfix]
 
@@ -73,9 +60,13 @@ bot.message(starting_with: 'top!') do |event|
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
+  rescue ArgumentError, PogoStats::Stats::InvalidComparison
+    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
+    renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
+  ensure
+    event.respond renderer.render
   end
-
-  event.respond renderer.render
+  nil
 end
 
 bot.message(starting_with: 'stats!') do |event|
@@ -95,16 +86,23 @@ bot.message(starting_with: 'stats!') do |event|
   end
 end
 
-bot.message(content: 'stats!') do |event|
-  row = response.values.select { |stats| stats[3] == event.user.name }.flatten
-
-  if row.empty?
-    event.respond 'You have not added your stats, type !links for the league URL'
-  else
-    stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
-
-    event.respond print_player_stats(stats)
+bot.command(:'stat', min_args: 0, max_args: 1, description: 'Display statistics') do |event, player_name|
+  if not player_name
+    player_name = event.user.name
   end
+
+  entries = PogoStats::Spreadsheet.new(values: response.values).entries
+  stats = PogoStats::ValueObject::Stats.new(entries)
+
+  player = stats.entries.find { |stat| stat.discord_tag == player_name }
+
+  if player.nil?
+    event.respond "#{player_name} has not added their stats, type !links for the league URL"
+  else
+    presenter = PogoStats::Presenter::Player.new(player)
+    event.respond print_player_stats(presenter)
+  end
+  nil
 end
 
 bot.message(starting_with: 'medals!') do |event|

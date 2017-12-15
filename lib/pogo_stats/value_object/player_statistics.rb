@@ -9,6 +9,8 @@ module PogoStats
       attr_accessor :last_updated
 
       attr_accessor :start_date
+      attr_accessor :level_40_date
+
       attr_accessor :current_level
 
       attr_accessor :pokemon_seen
@@ -48,6 +50,7 @@ module PogoStats
         self.team = entry.player.team
 
         self.start_date = entry.player.start_date
+        self.level_40_date = entry.player.level_40_date
 
         self.current_level = entry.player.current_level
 
