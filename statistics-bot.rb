@@ -14,9 +14,9 @@ bot.message(with_text: 'help!') do |event|
   message = """
 help!               - Displays this message.
 links!              - Useful links relating to the group.
-top! amount (field) - Displays the top 10 in the league.
-stats! (username)   - Displays the statistics of a user.
-medals! (username)  - Displays the medal a user has collected.
+!top amount (field) - Displays the top 10 in the league.
+!user (username)   - Displays the statistics of a user.
+!medals (username)  - Displays the medal a user has collected.
 compare! (username)  - Compare yourself against another trainer
 top-team!           - Display the top Pokemon Team
   """
@@ -60,7 +60,7 @@ bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top traine
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
-  rescue ArgumentError, PogoStats::Stats::InvalidComparison
+  rescue NoMethodError, ArgumentError, PogoStats::Stats::InvalidComparison
     available_stats = PogoStats::Stats::ComparisonSelector.available_stats
     renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
   ensure
@@ -69,27 +69,8 @@ bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top traine
   nil
 end
 
-bot.message(starting_with: 'stats!') do |event|
-  # Hack to stop us from triggering the wrong stats message
-  if event.message.content.split.count > 1
-    expected_name = event.message.content.split.last
-
-    row = response.values.select { |stats| stats[3] == expected_name }.flatten
-
-    if row.empty?
-      event.respond "#{expected_name} has not added their stats, type !links for the league URL"
-    else
-      stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
-
-      event.respond print_player_stats(stats)
-    end
-  end
-end
-
-bot.command(:'stat', min_args: 0, max_args: 1, description: 'Display statistics') do |event, player_name|
-  if not player_name
-    player_name = event.user.name
-  end
+bot.command(:user, min_args: 0, max_args: 1, description: 'Display a discord users PoGo statistics') do |event, player_name|
+  player_name = event.user.name if not player_name
 
   entries = PogoStats::Spreadsheet.new(values: response.values).entries
   stats = PogoStats::ValueObject::Stats.new(entries)
@@ -105,36 +86,22 @@ bot.command(:'stat', min_args: 0, max_args: 1, description: 'Display statistics'
   nil
 end
 
-bot.message(starting_with: 'medals!') do |event|
+bot.command(:medals, min_args: 0, max_args: 1, description: 'Display a discord users PoGo statistics') do |event, player_name|
+  player_name = event.user.name if not player_name
 
-  if event.message.content.split.count > 1
-    expected_name = event.message.content.split.last
+  entries = PogoStats::Spreadsheet.new(values: response.values).entries
+  stats = PogoStats::ValueObject::Stats.new(entries)
 
-    row = response.values.select { |stats| stats[3] == expected_name }.flatten
+  player = stats.entries.find { |stat| stat.discord_tag == player_name }
 
-    if row.empty?
-      event.respond 'You have not added your stats, type !links for the league URL'
-    else
-      stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
-
-      event.respond print_player_medals(stats)
-    end
-  end
-end
-
-bot.message(content: 'medals!') do |event|
-
-  row = response.values.select { |stats| stats[3] == event.user.name }.flatten
-
-  if row.empty?
-    event.respond 'You have not added your stats, type !links for the league URL'
+  if player.nil?
+    event.respond "#{player_name} has not added their stats, type !links for the league URL"
   else
-    stats = player_info(row).merge(player_medals(row)).merge(player_overall_stats(row))
-
-    event.respond print_player_medals(stats)
+    presenter = PogoStats::Presenter::Player.new(player)
+    event.respond print_player_medals(presenter)
   end
+  nil
 end
-
 
 bot.message(start_with: 'compare!') do |event|
   expected_name = event.message.content.split.last
