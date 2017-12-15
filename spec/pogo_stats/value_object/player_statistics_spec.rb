@@ -12,6 +12,7 @@ RSpec.describe PogoStats::ValueObject::PlayerStatistics do
       pokemon_seen: 249,
       pokemon_caught: 252,
       start_date: '14/06/2016',
+      level_40_date: '14/06/2017',
     )
   end
 
