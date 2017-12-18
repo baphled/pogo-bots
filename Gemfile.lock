@@ -1,9 +1,15 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (5.1.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     coderay (1.1.2)
+    concurrent-ruby (1.0.5)
     declarative (0.0.10)
     declarative-option (0.1.0)
     diff-lcs (1.3)
@@ -40,6 +46,8 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.8.3)
+    i18n (0.9.1)
+      concurrent-ruby (~> 1.0)
     jwt (2.1.0)
     little-plugger (1.1.4)
     logging (2.2.2)
@@ -50,6 +58,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    minitest (5.10.3)
     multi_json (1.12.2)
     multipart-post (2.0.0)
     netrc (0.11.0)
@@ -89,6 +98,9 @@ GEM
       faraday (~> 0.9)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
+    thread_safe (0.3.6)
+    tzinfo (1.2.4)
+      thread_safe (~> 0.1)
     uber (0.1.0)
     unf (0.1.4)
       unf_ext
@@ -102,6 +114,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   discordrb
   dotenv
   google-api-client
