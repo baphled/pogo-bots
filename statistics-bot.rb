@@ -37,18 +37,16 @@ Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWD
 end
 
 bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top trainers based on a given stat') do |event, limiter, selector_type|
-  if not limiter
-    limiter = 10
-  end
+  limiter = limiter.to_i
 
-  if not selector_type
-    selector_type = :total_xp
-  end
+  limiter = 10 if (not limiter)
+  selector_type = :total_xp if not selector_type
+  renderer = :not_yet_defined
 
   begin
+    raise PogoStats::Stats::InvalidArguments if limiter == 0
     selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.to_s.gsub(' ','_').to_sym)
 
-    renderer = :not_yet_defined
 
     compare = selector_hash[:type]
     postfix = selector_hash[:postfix]
@@ -60,12 +58,15 @@ bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top traine
     presenter = PogoStats::Presenter::Players.new(players)
 
     renderer = PogoStats::Renderer::TopPlayer.new(players: presenter.players, compare: compare, postfix: postfix)
-  rescue NoMethodError, ArgumentError, PogoStats::Stats::InvalidComparison
+  rescue NoMethodError, PogoStats::Stats::InvalidComparison
     available_stats = PogoStats::Stats::ComparisonSelector.available_stats
     renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
-  ensure
-    event.respond renderer.render
+  rescue PogoStats::Stats::InvalidArguments
+    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
+    renderer = PogoStats::Renderer::InvalidArguments.new(selector_type: selector_type, available_stats: available_stats)
   end
+  event.respond renderer.render
+
   nil
 end
 

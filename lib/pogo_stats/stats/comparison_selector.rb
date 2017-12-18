@@ -1,6 +1,7 @@
 module PogoStats
   module Stats
     class InvalidComparison < Exception; end
+    class InvalidArguments < Exception; end
 
     class ComparisonSelector
       def self.comparable_array
