@@ -1,5 +1,4 @@
 require 'dotenv/load'
-require 'pry'
 
 require 'discordrb'
 
