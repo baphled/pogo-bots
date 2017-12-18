@@ -10,20 +10,6 @@ require_relative './lib/pogo_stats'
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '!'
 
-bot.message(with_text: 'help!') do |event|
-  message = """
-!help               - Displays this message.
-!links              - Useful links relating to the group.
-!top amount (field) - Displays the top 10 in the league.
-!user (username)   - Displays the statistics of a user.
-!medals (username)  - Displays the medal a user has collected.
-!compare (username)  - Compare yourself against another trainer
-!top-team           - Display the top Pokemon Team
-  """
-
-  event.respond message
-end
-
 bot.message(with_text: 'boo!') do |event|
   event.respond ':mystic:'
 end
