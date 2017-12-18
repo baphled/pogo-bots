@@ -4,3 +4,4 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'pogo_stats/spreadsheet'
 require 'pogo_stats/stats'
 
+require 'active_support/inflector/inflections'

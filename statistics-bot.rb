@@ -128,31 +128,47 @@ bot.command(:'top-team', min_args: 0, max_args: 1, description: 'Display who the
 
   selector_type = 'total_xp' unless selector_type
 
-  message = ''
-  ordered = []
-  teams = stats.entries.collect { |hash| hash.team.strip }.uniq
+  begin
+    selector_hash = PogoStats::Stats::ComparisonSelector.find(selector_type.to_s.gsub(' ','_').to_sym)
 
-  teams.each do |team|
-    team_members = stats.entries.collect do |hash|
-      if hash.team.strip.downcase == team.strip.downcase
-        hash
-      end
-    end.compact
 
-    team_total = team_members.collect { |member| member.public_send(selector_type.to_sym) }
-    team_hash = {
-      team: team.downcase.to_sym,
-      selector_type.to_sym => team_total.reduce(0) { |a,b| a + b },
-      players_count: team_members.count
-    }
-    ordered << team_hash
-  end
+    compare = selector_hash[:type]
+    postfix = selector_hash[:postfix]
 
-  ordered.each_with_index do |team, index|
-    message << print_top_team(team, index, selector_type)
+    message = "Top Team by #{postfix}:\n\n"
+
+    ordered = []
+    teams = stats.entries.collect { |hash| hash.team.strip }.uniq
+
+    teams.each do |team|
+      team_members = stats.entries.collect do |hash|
+        if hash.team.strip.downcase == team.strip.downcase
+          hash
+        end
+      end.compact
+
+      team_total = team_members.collect { |member| member.public_send(compare.to_sym) }
+      team_hash = {
+        team: team.downcase.to_sym,
+        selector_type.to_sym => team_total.reduce(0) { |a,b| a + b },
+        players_count: team_members.count
+      }
+      ordered << team_hash
+    end
+
+    ordered.each_with_index do |team, index|
+      message << print_top_team(team, index, compare, postfix)
+    end
+
+  rescue NoMethodError, PogoStats::Stats::InvalidComparison
+    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
+    renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: selector_type, available_stats: available_stats)
+    message = renderer.render
   end
 
   event.respond message
+
+  nil
 end
 
 bot.run
