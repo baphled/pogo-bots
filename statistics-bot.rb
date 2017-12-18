@@ -104,8 +104,8 @@ bot.command(:medals, min_args: 0, max_args: 1, description: 'Display a discord u
   nil
 end
 
-bot.message(start_with: '!compare') do |event|
-  expected_name = event.message.content.split.last
+bot.command(:compare, min_args: 1, max_args: 1, description: 'Compare your stats with another user') do |event, other_player|
+  expected_name = other_player
 
   row = response.values.select { |stats| stats[3] == expected_name }.flatten
 
@@ -138,7 +138,7 @@ bot.message(start_with: '!compare') do |event|
   end
 end
 
-bot.message(content: '!top-team') do |event|
+bot.command(:'top-team', min_args: 0, max_args: 1, description: 'Display who the top Pokemon Go team is') do |event, selector|
   hashes = []
   response.values.each do |row|
     break if row[0].nil?
