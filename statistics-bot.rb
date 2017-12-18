@@ -170,4 +170,11 @@ bot.command(:'top-team', min_args: 0, max_args: 1, description: 'Display who the
   nil
 end
 
+bot.command(:league, description: 'Displays general information about the existing league') do |event|
+  entries = PogoStats::Spreadsheet.new(values: response.values).entries
+  stats = PogoStats::ValueObject::Stats.new(entries)
+
+  event.respond "There are currently #{stats.entries.count} Discord users entered into the league"
+end
+
 bot.run
