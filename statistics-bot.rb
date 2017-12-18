@@ -10,16 +10,14 @@ require_relative './lib/pogo_stats'
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '!'
 
-bot.message(with_text: 'boo!') do |event|
-  event.respond ':mystic:'
-end
-
-bot.message(with_text: 'links!') do |event|
+bot.command(:links, description: 'Display helpful links') do |event|
   links = """
 Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWDdJ_rQargbKh7qGY/edit?usp=sharing
   """
 
   event.respond links
+
+  nil
 end
 
 bot.command(:top, min_args: 1, max_args: 2, description: 'Display the top trainers based on a given stat') do |event, limiter, selector_type|
