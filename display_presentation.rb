@@ -104,6 +104,6 @@ def print_top_10(stats, index)
   "#{(index + 1)}) #{stats[:player_tag]} (#{stats[:team]}) - #{stats[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP\n"
 end
 
-def print_top_team(team, index)
-  "#{index + 1}. #{team[:team].capitalize} #{team[:total_xp].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} XP (#{team[:players_count]} players)\n"
+def print_top_team(team, index, selector_type)
+  "#{index + 1}. #{team[:team].capitalize} #{team[selector_type.to_sym].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse} (#{team[:players_count]} players)\n"
 end

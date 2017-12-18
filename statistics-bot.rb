@@ -122,36 +122,34 @@ bot.command(:compare, min_args: 1, max_args: 1, description: 'Compare your stats
   end
 end
 
-bot.command(:'top-team', min_args: 0, max_args: 1, description: 'Display who the top Pokemon Go team is') do |event, selector|
-  hashes = []
-  response.values.each do |row|
-    break if row[0].nil?
-    hash =  player_info(row)
-    hashes << {team: hash[:team], total_xp: hash[:total_xp]}
-  end
+bot.command(:'top-team', min_args: 0, max_args: 1, description: 'Display who the top Pokemon Go team is') do |event, selector_type|
+  entries = PogoStats::Spreadsheet.new(values: response.values).entries
+  stats = PogoStats::ValueObject::Stats.new(entries)
+
+  selector_type = 'total_xp' unless selector_type
 
   message = ''
   ordered = []
-  teams = hashes.collect { |hash| hash[:team].strip }.uniq
+  teams = stats.entries.collect { |hash| hash.team.strip }.uniq
 
   teams.each do |team|
-    team_members = hashes.collect do |hash|
-      if hash[:team].strip.downcase == team.strip.downcase
+    team_members = stats.entries.collect do |hash|
+      if hash.team.strip.downcase == team.strip.downcase
         hash
       end
     end.compact
 
-    team_total_xp = team_members.collect { |member| member[:total_xp] }
+    team_total = team_members.collect { |member| member.public_send(selector_type.to_sym) }
     team_hash = {
       team: team.downcase.to_sym,
-      total_xp: team_total_xp.reduce(0) { |a,b| a + b },
+      selector_type.to_sym => team_total.reduce(0) { |a,b| a + b },
       players_count: team_members.count
     }
     ordered << team_hash
   end
 
   ordered.each_with_index do |team, index|
-    message << print_top_team(team, index)
+    message << print_top_team(team, index, selector_type)
   end
 
   event.respond message
