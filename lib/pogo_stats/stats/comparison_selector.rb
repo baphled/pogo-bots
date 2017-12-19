@@ -95,10 +95,11 @@ module PogoStats
 
       def self.find(selector_type)
         found = comparable_array.find { |a| a[:type] == selector_type}
-        if found.empty?
-          raise(PogoStats::Stats::InvalidComparison)
-        else
+
+        if found
           found
+        else
+          raise(PogoStats::Stats::InvalidComparison)
         end
       end
 
