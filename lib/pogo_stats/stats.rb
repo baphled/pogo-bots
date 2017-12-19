@@ -21,6 +21,8 @@ require 'pogo_stats/value_object/players'
 
 
 module PogoStats
+  class InvalidCompetitionState < Exception; end
+
   module Stats
     class InvalidComparison < Exception; end
     class InvalidArguments < Exception; end

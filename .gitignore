@@ -1,3 +1,4 @@
+db/config.yml
 .env
 .env.*
 client_secret.json
