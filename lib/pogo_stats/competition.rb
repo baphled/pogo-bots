@@ -42,14 +42,16 @@ module PogoStats
 
       players.entries.each do |entry|
         player_entry  = player_entries.find_by(player_tag: entry.player_tag)
-        final_value = (entry.public_send(statistic.to_sym) - player_entry.initial_value)
-        player_entry.update(final_value: final_value)
+        if player_entry
+          final_value = (entry.public_send(statistic.to_sym) - player_entry.initial_value.to_i)
+          player_entry.update(final_value: final_value)
+        end
       end
 
       winner = player_entries
         .where(statistic: statistic.to_s)
         .order(:final_value)
-        .first
+        .last
       message = """
       Congratulations #{winner.discord_tag}, you're the winner of the #{statistic} competition
 
