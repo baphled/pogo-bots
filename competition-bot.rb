@@ -23,9 +23,12 @@ bot.command(:competition, min_args: 2, description: 'Start a new competition') d
     message = competition.public_send(state.to_sym)
 
   rescue PogoStats::Stats::InvalidComparison
-    message = 'Invalid comparison'
+    available_stats = PogoStats::Stats::ComparisonSelector.available_stats
+    renderer = PogoStats::Renderer::InvalidComparison.new(selector_type: statistic, available_stats: available_stats)
+
+    message = renderer.render
   rescue PogoStats::InvalidCompetitionState
-    message = 'Invalid competition state'
+    message = 'Invalid competition state. Use start, stop, cancel or running'
   end
 
   event.respond message
