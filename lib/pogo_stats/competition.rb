@@ -43,7 +43,8 @@ module PogoStats
         player_entry = player_statistic.find_by(player_tag: entry.player_tag)
 
         if player_entry
-          final_value = (entry.public_send(statistic.to_sym) - player_entry.initial_value.to_i)
+          final_value = 0
+          final_value += (entry.public_send(statistic.to_sym) - player_entry.initial_value.to_i)
           player_entry.update(final_value: final_value)
         end
       end
