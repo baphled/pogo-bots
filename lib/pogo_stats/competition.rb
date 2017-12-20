@@ -15,9 +15,9 @@ module PogoStats
       raise PogoStats::InvalidCompetitionState unless valid_states.include?(state.to_s.gsub(' ','_').to_sym)
       PogoStats::Stats::ComparisonSelector.find(statistic.to_s.gsub(' ','_').to_sym)
 
-      self.players = players
-      self.state      = state
-      self.statistic  = statistic
+      self.players   = players
+      self.state     = state
+      self.statistic = statistic
     end
 
     def start
@@ -39,19 +39,17 @@ module PogoStats
     end
 
     def stop
-
       players.entries.each do |entry|
-        player_entry  = player_entries.find_by(player_tag: entry.player_tag)
+        player_entry = player_statistic.find_by(player_tag: entry.player_tag)
+
         if player_entry
           final_value = (entry.public_send(statistic.to_sym) - player_entry.initial_value.to_i)
           player_entry.update(final_value: final_value)
         end
       end
 
-      winner = player_entries
-        .where(statistic: statistic.to_s)
-        .order(:final_value)
-        .last
+      winner = player_statistic.winner
+
       message = """
       Congratulations #{winner.discord_tag}, you're the winner of the #{statistic} competition
 
@@ -64,23 +62,20 @@ module PogoStats
     end
 
     def cancel
-      player_entries = PogoStats::Models::PlayerStatistic.where(statistic: statistic.to_s)
-
-      PogoStats::Models::PlayerStatistic.destroy(player_entries.collect(&:id))
+      PogoStats::Models::PlayerStatistic.destroy(player_statistic.collect(&:id))
 
       "The #{statistic} competition has been cancelled"
     end
 
     def running
-      players = PogoStats::Models::PlayerStatistic.where(statistic: statistic.to_s)
-
-      "Currently have #{players.count} in the current competition"
+      "Currently have #{player_statistic.count} in the current competition"
     end
 
     protected
 
-    def player_entries
-      PogoStats::Models::PlayerStatistic.where(statistic: statistic.to_s)
+    def player_statistic
+      PogoStats::Models::PlayerStatistic
+        .where(statistic: statistic.to_s)
     end
 
     def valid_states
