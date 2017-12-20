@@ -11,7 +11,7 @@ require_relative './lib/pogo_stats'
 #TODO Use a different discord token
 #TODO Enhance so that only certain roles can call specific commands
 
-bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: ENV['COMPETITION_DISCORD_TOKEN'], prefix: '!'
 
 bot.command(:competition, min_args: 2, description: 'Start a new competition') do |event, state, statistic|
   begin

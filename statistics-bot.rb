@@ -7,7 +7,7 @@ require_relative './display_presentation'
 
 require_relative './lib/pogo_stats'
 
-bot = Discordrb::Commands::CommandBot.new token: ENV['DISCORD_TOKEN'], prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: ENV['STATS_DISCORD_TOKEN'], prefix: '!'
 
 bot.command(:links, description: 'Display helpful links') do |event|
   links = """
