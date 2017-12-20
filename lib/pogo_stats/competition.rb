@@ -51,6 +51,8 @@ module PogoStats
 
       winner = player_statistic.winner
 
+      PogoStats::Models::PlayerStatistic.destroy(player_statistic.collect(&:id))
+
       message = """
       Congratulations #{winner.discord_tag}, you're the winner of the #{statistic} competition
 
