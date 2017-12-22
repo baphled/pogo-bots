@@ -163,6 +163,17 @@ RSpec.describe PogoStats::Competition do
     it 'returns the winner' do
       expect(subject.stop).to eql(expected)
     end
+
+    context 'player no longer in league' do
+      it 'does not try to find the players statistic'
+      it 'players final value is zero'
+    end
+
+    context 'new player added to the league' do
+      it 'looks for the player'
+      it 'does not set a final_value'
+      it 'players final value is zero'
+    end
   end
 
   describe '#cancel' do
