@@ -1,6 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    accuweather (0.2.3)
+      nokogiri (~> 1.6)
     actionpack (5.1.4)
       actionview (= 5.1.4)
       activesupport (= 5.1.4)
@@ -165,6 +167,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  accuweather
   activerecord
   activesupport
   database_cleaner
