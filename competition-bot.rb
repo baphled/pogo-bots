@@ -8,7 +8,6 @@ require_relative './display_presentation'
 
 require_relative './lib/pogo_stats'
 
-#TODO Use a different discord token
 #TODO Enhance so that only certain roles can call specific commands
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['COMPETITION_DISCORD_TOKEN'], prefix: '!'
