@@ -37,7 +37,7 @@ module PogoWeather
           ]
         },
         {
-          conditions: 'mostly cloudy',
+          conditions: 'overcast',
           types: [
             'poison',
             'fighting',

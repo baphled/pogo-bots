@@ -91,15 +91,15 @@ RSpec.describe PogoWeather::Finder do
 
     context 'when there is wind' do
       it 'includes psychic types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('psychic')
+        expect(subject.find('breezy')[:types]).to include('psychic')
       end
 
       it 'includes flying types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('flying')
+        expect(subject.find('breezy')[:types]).to include('flying')
       end
 
       it 'includes dragon types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('dragon')
+        expect(subject.find('breezy')[:types]).to include('dragon')
       end
     end
 
