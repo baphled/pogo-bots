@@ -21,12 +21,7 @@ bot.command(:weather, description: 'Provides a weather forecast for a city') do 
     #TODO Do not assume the first location is the correct one
     location = locations.first
 
-    current_weather = Accuweather.get_conditions(location_id: location.id).forecast
-
-    time_of_day = :not_defined
-    time_of_day = (Time.now < Time.parse(current_weather.first.sunset)) ? :daytime : :nighttime
-
-    current_weather = current_weather.first.public_send(time_of_day)
+    current_weather = Accuweather.get_conditions(location_id: location.id).current
 
     event.respond "#{current_weather.weather_text} in #{city.capitalize}, #{location.state} "
     event.respond "Expect to encounter more #{PogoWeather::Finder.find(current_weather.weather_text)[:types].join(', ')} type pokemon."
