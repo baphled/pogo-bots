@@ -1,13 +1,13 @@
 module PogoWeather
   class Finder
     def self.find(string)
-      self.all.find { |weather| string.include?(weather[:conditions]) }
+      self.all.find { |weather| string.downcase.include?(weather[:conditions]) }
     end
 
     def self.all
       [
         {
-          conditions: 'Clear',
+          conditions: 'clear',
           types: [
             'grass',
             'fire',
@@ -15,14 +15,14 @@ module PogoWeather
           ]
         },
         {
-          conditions: 'Partly cloudy',
+          conditions: 'partly cloudy',
           types: [
             'normal',
             'rock',
           ]
         },
         {
-          conditions: 'Rain',
+          conditions: 'rain',
           types: [
             'water',
             'electric',
@@ -30,14 +30,14 @@ module PogoWeather
           ]
         },
         {
-          conditions: 'Snow',
+          conditions: 'snow',
           types: [
             'ice',
             'steel',
           ]
         },
         {
-          conditions: 'Mostly cloudy',
+          conditions: 'mostly cloudy',
           types: [
             'poison',
             'fighting',
