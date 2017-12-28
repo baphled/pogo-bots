@@ -6,7 +6,7 @@ RSpec.describe PogoWeather::Finder do
 
     context 'when there is clear' do
       it 'includes grass types' do
-        expect(subject.find('Clear')[:types]).to include('grass')
+        expect(subject.find('Sunny')[:types]).to include('grass')
       end
 
       it 'includes fire types' do

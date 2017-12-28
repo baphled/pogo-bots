@@ -12,7 +12,8 @@ module PogoWeather
       [
         {
           conditions: [
-            'clear'
+            'clear',
+            'sunny',
           ],
           types: [
             'grass',
