@@ -28,7 +28,7 @@ bot.command(:'next-migration', description: 'Displays when the next migration wi
 end
 
 bot.command(:'current-migration', description: 'Displays when the current migration date') do |event|
-  event.respond "The next nest migration is: #{PoGoHelper.current_migration}"
+  event.respond "The last nest migration was: #{PoGoHelper.current_migration}"
 
   nil
 end
