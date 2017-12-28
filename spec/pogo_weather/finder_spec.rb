@@ -6,7 +6,7 @@ RSpec.describe PogoWeather::Finder do
 
     context 'when there is clear' do
       it 'includes grass types' do
-        expect(subject.find('Sunny')[:types]).to include('grass')
+        expect(subject.find('Clear')[:types]).to include('grass')
       end
 
       it 'includes fire types' do
@@ -17,6 +17,20 @@ RSpec.describe PogoWeather::Finder do
         expect(subject.find('Clear')[:types]).to include('ground')
       end
     end
+
+  context 'when it is sunny' do
+      it 'includes grass types' do
+        expect(subject.find('Sunny')[:types]).to include('grass')
+      end
+
+      it 'includes fire types' do
+        expect(subject.find('Sunny')[:types]).to include('fire')
+      end
+
+      it 'includes ground types' do
+        expect(subject.find('Sunny')[:types]).to include('ground')
+      end
+  end
 
     context 'when there is rain' do
       it 'includes water types' do
@@ -55,9 +69,18 @@ RSpec.describe PogoWeather::Finder do
       end
     end
 
+    context 'when it is mostly sunny' do
+      it 'includes normal types' do
+        expect(subject.find('mostly sunny')[:types]).to include('normal')
+      end
+
+      it 'includes rock types' do
+        expect(subject.find('mostly sunny')[:types]).to include('rock')
+      end
+    end
     context 'when there is partly cloudy' do
       it 'includes normal types' do
-        expect(subject.find('Partly cloudy')[:types]).to include('normal')
+        expect(subject.find('mostly sunny')[:types]).to include('normal')
       end
 
       it 'includes rock types' do

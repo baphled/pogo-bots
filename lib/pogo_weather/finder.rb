@@ -12,6 +12,16 @@ module PogoWeather
       [
         {
           conditions: [
+            'mostly sunny',
+            'partly cloudy',
+          ],
+          types: [
+            'normal',
+            'rock',
+          ]
+        },
+        {
+          conditions: [
             'clear',
             'sunny',
           ],
@@ -19,15 +29,6 @@ module PogoWeather
             'grass',
             'fire',
             'ground',
-          ]
-        },
-        {
-          conditions: [
-            'partly cloudy'
-          ],
-          types: [
-            'normal',
-            'rock',
           ]
         },
         {
