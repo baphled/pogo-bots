@@ -4,151 +4,132 @@ RSpec.describe PogoWeather::Finder do
   describe '.find' do
     subject { described_class }
 
-    context 'when there is clear' do
-      it 'includes grass types' do
-        expect(subject.find('Clear')[:types]).to include('grass')
+    it 'includes the clear weather pokemon' do
+      expect(subject.find('clear')[:types]).to eql(
+        [
+          'grass',
+          'fire',
+          'ground',
+        ]
+      )
+    end
+
+    describe 'clear weather responses' do
+      it_behaves_like 'clear weather boost' do
+        let(:weather_text) { 'clear' }
       end
 
-      it 'includes fire types' do
-        expect(subject.find('Clear')[:types]).to include('fire')
-      end
-
-      it 'includes ground types' do
-        expect(subject.find('Clear')[:types]).to include('ground')
+      it_behaves_like 'clear weather boost' do
+        let(:weather_text) { 'sunny' }
       end
     end
 
-  context 'when it is sunny' do
-      it 'includes grass types' do
-        expect(subject.find('Sunny')[:types]).to include('grass')
+    it 'includes the rain pokemon' do
+      expect(subject.find('rain')[:types]).to eql(
+        [
+          'water',
+          'electric',
+          'bug',
+        ]
+      )
+    end
+
+    describe 'rain weather responses' do
+      it_behaves_like 'rain weather boost' do
+        let(:weather_text) { 'rain' }
       end
 
-      it 'includes fire types' do
-        expect(subject.find('Sunny')[:types]).to include('fire')
-      end
-
-      it 'includes ground types' do
-        expect(subject.find('Sunny')[:types]).to include('ground')
-      end
-  end
-
-    context 'when there is rain' do
-      it 'includes water types' do
-        expect(subject.find('Rain')[:types]).to include('water')
-      end
-
-      it 'includes electric types' do
-        expect(subject.find('Rain')[:types]).to include('electric')
-      end
-
-      it 'includes bug types' do
-        expect(subject.find('Rain')[:types]).to include('bug')
+      it_behaves_like 'rain weather boost' do
+        let(:weather_text) { 'shower' }
       end
     end
 
-    context 'when there is snow' do
-      it 'includes ice types' do
-        expect(subject.find('Snow, accumulating 1-2 in')[:types]).to include('ice')
+    it 'includes the snow pokemon' do
+      expect(subject.find('snow')[:types]).to eql(
+        [
+          'ice',
+          'steel'
+        ]
+      )
+    end
+
+    describe 'snow weather responses' do
+      it_behaves_like 'snow weather boost' do
+        let(:weather_text) { 'Snow' }
       end
 
-      it 'includes steel types' do
-        expect(subject.find('Snow, accumulating 1-2 in')[:types]).to include('steel')
+      it_behaves_like 'snow weather boost' do
+        let(:weather_text) { 'Snow, accumulating 1-2 in' }
       end
     end
 
-    context 'when there is wind' do
-      it 'includes psychic types' do
-        expect(subject.find('Mainly cloudy and breezy')[:types]).to include('psychic')
-      end
-      it 'includes flying types' do
-        expect(subject.find('Mainly cloudy and breezy')[:types]).to include('flying')
+    it 'includes the wind pokemon' do
+      expect(subject.find('breezy')[:types]).to eql(
+        [
+          'psychic',
+          'flying',
+          'dragon',
+        ]
+      )
+    end
+
+    describe 'wind weather responses' do
+      it_behaves_like 'wind weather boost' do
+        let(:weather_text) { 'Mainly cloudy and breezy' }
       end
 
-      it 'includes dragon types' do
-        expect(subject.find('Mainly cloudy and breezy')[:types]).to include('dragon')
+      it_behaves_like 'wind weather boost' do
+        let(:weather_text) { 'breezy' }
       end
     end
 
-    context 'when it is mostly sunny' do
-      it 'includes normal types' do
-        expect(subject.find('mostly sunny')[:types]).to include('normal')
-      end
-
-      it 'includes rock types' do
-        expect(subject.find('mostly sunny')[:types]).to include('rock')
-      end
-    end
-    context 'when there is partly cloudy' do
-      it 'includes normal types' do
-        expect(subject.find('mostly sunny')[:types]).to include('normal')
-      end
-
-      it 'includes rock types' do
-        expect(subject.find('Partly cloudy')[:types]).to include('rock')
-      end
+    it 'includes the partly cloudy pokemon' do
+      expect(subject.find('partly cloudy')[:types]).to eql(
+        [
+          'normal',
+          'rock',
+        ]
+      )
     end
 
-    context 'when it is overcast' do
-      it 'includes poison types' do
-        expect(subject.find('Overcast with a bit of ice')[:types]).to include('poison')
+    describe 'partly cloudly weather responses' do
+      it_behaves_like 'partly cloudy weather boost' do
+        let(:weather_text) { 'Partly cloudy' }
       end
 
-      it 'includes fighting types' do
-        expect(subject.find('Overcast with a bit of ice')[:types]).to include('fighting')
-      end
-
-      it 'includes fairy types' do
-        expect(subject.find('Overcast with a bit of ice')[:types]).to include('fairy')
+      it_behaves_like 'partly cloudy weather boost' do
+        let(:weather_text) { 'mostly sunny' }
       end
     end
 
-    context 'when there is fog' do
-      it 'includes ghost types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('ghost')
-      end
+    it 'includes the overcast pokemon' do
+      expect(subject.find('overcast')[:types]).to eql(
+        [
+          'poison',
+          'fighting',
+          'fairy',
+        ]
+      )
+    end
 
-      it 'includes dark types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('dark')
+    describe 'overcast weather responses' do
+      it_behaves_like 'overcast weather boost' do
+        let(:weather_text) { 'overcast' }
       end
     end
 
-    context 'when there is wind' do
-      it 'includes psychic types' do
-        expect(subject.find('breezy')[:types]).to include('psychic')
-      end
-
-      it 'includes flying types' do
-        expect(subject.find('breezy')[:types]).to include('flying')
-      end
-
-      it 'includes dragon types' do
-        expect(subject.find('breezy')[:types]).to include('dragon')
-      end
+    it 'includes the fog pokemon' do
+      expect(subject.find('fog')[:types]).to eql(
+        [
+          'ghost',
+          'dark',
+        ]
+      )
     end
 
-    context 'when there is partly cloudy' do
-      it 'includes normal types' do
-        expect(subject.find('Partly cloudy')[:types]).to include('normal')
-      end
-
-      it 'includes rock types' do
-        expect(subject.find('Partly cloudy')[:types]).to include('rock')
-      end
-    end
-
-    context 'when it is overcast' do
-      it 'includes poison types'
-      it 'includes fighting types'
-      it 'includes fairy types'
-    end
-
-    context 'when there is fog' do
-      it 'includes ghost types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('ghost')
-      end
-
-      it 'includes dark types' do
-        expect(subject.find('Low clouds and fog')[:types]).to include('dark')
+    describe 'fog weather responses' do
+      it_behaves_like 'fog weather boost' do
+        let(:weather_text) { 'fog' }
       end
     end
   end
