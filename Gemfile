@@ -11,6 +11,8 @@ gem 'dotenv'
 gem 'activerecord'
 gem 'mysql2'
 gem 'standalone_migrations'
+gem 'rmagick'
+gem "mini_magick"
 
 # Accuweather bot
 gem 'accuweather'
