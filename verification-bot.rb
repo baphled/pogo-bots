@@ -8,6 +8,7 @@ require 'pry'
 mystic_colours = [
   [0,42,84],
   [0, 71, 142],
+  [0, 71, 143],
   [1,120,238],
   [2,116,241],
 ]
@@ -25,11 +26,11 @@ instinct_colours = [
   [153, 122, 0],
 ]
 
-team = :undefined
-
 bot = Discordrb::Bot.new token: ENV['VERIFICATION_DISCORD_BOT']
 
 bot.message(in: "#bot-fun") do |event|
+  team = :undefined
+
   if not event.message.attachments.empty?
     image_url = event.message.attachments.first.url
     image = MiniMagick::Image.open(image_url)
@@ -45,7 +46,16 @@ bot.message(in: "#bot-fun") do |event|
     else
       team = 'Unknown'
     end
-    event.respond "Verified: #{team} member"
+
+    role_id   = event.server.roles.find { |role| role.name == team}.id
+
+    if not team == 'Unknown' and not role_id.nil?
+      event.user.add_role(role_id)
+
+      event.respond "Verified: #{team} member"
+    else
+      event.respond 'Unable to verify player'
+    end
   end
 end
 
