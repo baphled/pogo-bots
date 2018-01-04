@@ -14,3 +14,9 @@ bundle install
 ```
 bundle exec ruby stastistic-bot.rb
 ```
+
+## License
+
+The Non-Profit Open Software License version 3.0 (NPOSL-3.0)
+
+http://rosenlaw.com/OSL3.0-explained.htm
