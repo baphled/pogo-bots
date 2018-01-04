@@ -30,22 +30,23 @@ team = :undefined
 bot = Discordrb::Bot.new token: ENV['VERIFICATION_DISCORD_BOT']
 
 bot.message(in: "#bot-fun") do |event|
-  image_url = event.message.attachments.first.url
+  if not event.message.attachments.empty?
+    image_url = event.message.attachments.first.url
+    image = MiniMagick::Image.open(image_url)
+    colour_array = image.get_pixels
+    top_left_corner = colour_array.first.first
 
-  image = MiniMagick::Image.open(image_url)
-  colour_array = image.get_pixels
-  top_left_corner = colour_array.first.first
-
-  if mystic_colours.include?(top_left_corner)
-    team = 'Mystic'
-  elsif valor_colours.include?(top_left_corner)
-    team = 'Valor'
-  elsif instinct_colours.include?(top_left_corner)
-    team = 'Instinct'
-  else
-    team = 'Unknown'
+    if mystic_colours.include?(top_left_corner)
+      team = 'Mystic'
+    elsif valor_colours.include?(top_left_corner)
+      team = 'Valor'
+    elsif instinct_colours.include?(top_left_corner)
+      team = 'Instinct'
+    else
+      team = 'Unknown'
+    end
+    event.respond "Verified: #{team} member"
   end
-  event.respond "Verified: #{team} member"
 end
 
 bot.run
