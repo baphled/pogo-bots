@@ -1,9 +1,11 @@
 require 'dotenv/load'
 require 'mini_magick'
+require 'yaml'
 
 require 'pry'
 
 require_relative '../lib/team_colour_matrix'
+require_relative '../lib/team_colour_matrix/models/rgb_list'
 
 image_url = 'https://cdn.discordapp.com/attachments/390221214624382977/398695926597812224/image.png'
 

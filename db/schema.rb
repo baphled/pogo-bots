@@ -22,4 +22,11 @@ ActiveRecord::Schema.define(version: 20171219003230) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rgb_lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "team"
+    t.string "r"
+    t.string "g"
+    t.string "b"
+  end
+
 end

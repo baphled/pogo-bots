@@ -12,6 +12,7 @@ require "pry"
 
 require_relative './lib/po_go_helper'
 require_relative './lib/team_colour_matrix'
+require_relative './lib/team_colour_matrix/models/rgb_list'
 require_relative './lib/pogo_weather'
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['POGO_DISCORD_TOKEN'], prefix: '!'
@@ -99,6 +100,31 @@ bot.message(in: "#introduction") do |event|
 **Player Image**: #{image_url}
       """
       admin_user.pm(message)
+    end
+  end
+end
+
+bot.command(:'set-colour', min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
+  models = TeamColourMatrix::Models::RgbList.where(team: 'Mystic')
+  rgb_array = models.collect { |model| [model.r,model.g,model.b] }
+
+  teams = [
+    'Mystic',
+    'Valor',
+    'Instinct',
+  ]
+
+  if event.server.nil?
+    if teams.include?(team.capitalize)
+      r,g,b = rgb_args[1..-2].split(',').collect! {|n| n.to_i}
+      rgb_list = TeamColourMatrix::Models::RgbList.new(r: r, g: g, b: b, team: team.capitalize)
+      if rgb_list.save
+        event.respond 'New RGB added'
+      else
+        event.respond rgb_list.errors
+      end
+    else
+      event.respond 'Invalid command'
     end
   end
 end
