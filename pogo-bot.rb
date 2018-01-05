@@ -4,6 +4,7 @@ require 'yaml'
 require 'discordrb'
 require 'active_support'
 require 'active_support/core_ext'
+require 'active_support/inflector/inflections'
 
 require 'mini_magick'
 
@@ -11,6 +12,7 @@ require "pry"
 
 require_relative './lib/po_go_helper'
 require_relative './lib/team_colour_matrix'
+require_relative './lib/pogo_weather'
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['POGO_DISCORD_TOKEN'], prefix: '!'
 
@@ -33,6 +35,26 @@ end
 
 bot.command(:'current-migration', description: 'Displays when the current migration date') do |event|
   event.respond "The current migration ends on: #{PoGoHelper.current_migration}"
+
+  nil
+end
+
+bot.command(:weather, description: 'Provides a weather forecast for a city') do |event, *city|
+  city = city.join(' ')
+  city = 'Bath' if city.nil? or city.empty?
+
+  locations = Accuweather.city_search(name: city)
+  if locations.empty?
+    event.respond "#{city} not found"
+  else
+    #TODO Do not assume the first location is the correct one
+    location = locations.first
+
+    current_weather = Accuweather.get_conditions(location_id: location.id).current
+
+    event.respond "#{current_weather.weather_text} in #{city.capitalize}, #{location.state} "
+    event.respond "Expect to encounter more #{PogoWeather::Finder.find(current_weather.weather_text)[:types].join(', ')} type pokemon."
+  end
 
   nil
 end
