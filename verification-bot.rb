@@ -44,19 +44,26 @@ bot.message(in: "#introduction") do |event|
       team = 'Valor'
     elsif instinct_colours.include?(top_left_corner)
       team = 'Instinct'
-    else
-      team = 'Unknown'
     end
 
-    found_role = event.server.roles.find { |role| role.name == team}
-    role_id = found_role.id
+    if team != :undefined
+      found_role = event.server.roles.find { |role| role.name == team }
 
-    if not team == 'Unknown' and not role_id.nil?
-      event.user.add_role(role_id)
+      role_id = found_role.id
 
-      event.respond "Verified: #{event.user.name} as a member of team #{team}"
+      if !role_id.nil?
+        event.user.add_role(role_id)
+
+        event.respond "Verified: #{event.user.name} as a member of team #{team}"
+      else
+        event.respond 'Unable to verify player'
+      end
     else
-      event.respond 'Unable to verify player'
+      admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
+
+      admin_user.pm("Member: #{event.user.name}")
+      admin_user.pm("RBG: #{top_left_corner}")
+      admin_user.pm("Player Image: #{image_url}")
     end
   end
 end
