@@ -105,9 +105,6 @@ bot.message(in: "#introduction") do |event|
 end
 
 bot.command(:'set-colour', min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
-  models = TeamColourMatrix::Models::RgbList.where(team: 'Mystic')
-  rgb_array = models.collect { |model| [model.r,model.g,model.b] }
-
   teams = [
     'Mystic',
     'Valor',
