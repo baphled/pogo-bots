@@ -5,7 +5,7 @@ require 'pry'
 
 require_relative './lib/team_colour_matrix'
 
-image_url = 'images/patricecarroll-instinct.png'
+image_url = 'https://cdn.discordapp.com/attachments/390221214624382977/398695926597812224/image.png'
 
 image = MiniMagick::Image.open(image_url)
 colour_array = image.get_pixels
