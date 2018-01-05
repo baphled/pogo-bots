@@ -16,7 +16,8 @@ bot = Discordrb::Commands::CommandBot.new token: ENV['POGO_DISCORD_TOKEN'], pref
 
 bot.command(:links, description: 'Display helpful links') do |event|
   links = """
-Pogo Stats: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWDdJ_rQargbKh7qGY/edit?usp=sharing
+**PoGo League spreadsheet**: https://docs.google.com/spreadsheets/d/1ZLXHU0FU-_ejkxP_Z_19iEv5FBWDdJ_rQargbKh7qGY/edit?usp=sharing
+**Gamepress PoGo**: https://pokemongo.gamepress.gg
   """
 
   event.respond links
