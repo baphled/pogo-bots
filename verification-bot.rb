@@ -47,7 +47,8 @@ bot.message(in: "#introduction") do |event|
       team = 'Unknown'
     end
 
-    role_id   = event.server.roles.find { |role| role.name == team}.id
+    found_role = event.server.roles.find { |role| role.name == team}
+    role_id = found_role.id
 
     if not team == 'Unknown' and not role_id.nil?
       event.user.add_role(role_id)
