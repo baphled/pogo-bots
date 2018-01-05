@@ -62,7 +62,7 @@ bot.message(in: "#introduction") do |event|
         event.user.add_role(role_id)
 
         event.respond "Verified: #{event.user.name} as a member of team #{team}"
-        event.respond "!links"
+        event.respond "Type `!help` for more information"
       else
         event.respond 'Unable to verify player'
       end
