@@ -24,6 +24,7 @@ instinct_colours = [
   [255, 200, 5],
   [246, 202, 69],
   [153, 122, 0],
+  [91, 73, 0],
 ]
 
 bot = Discordrb::Bot.new token: ENV['VERIFICATION_DISCORD_BOT']
