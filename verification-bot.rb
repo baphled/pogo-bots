@@ -28,7 +28,7 @@ instinct_colours = [
 
 bot = Discordrb::Bot.new token: ENV['VERIFICATION_DISCORD_BOT']
 
-bot.message(in: "#bot-fun") do |event|
+bot.message(in: "#introduction") do |event|
   team = :undefined
 
   if not event.message.attachments.empty?
