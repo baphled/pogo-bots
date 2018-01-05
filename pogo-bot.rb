@@ -61,7 +61,7 @@ bot.message(in: "#introduction") do |event|
       if !role_id.nil?
         event.user.add_role(role_id)
 
-        event.respond "Verified: #{event.user.name} as a member of team #{team}"
+        event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
         event.respond "Type `!help` for more information"
       else
         event.respond 'Unable to verify player'
@@ -69,9 +69,9 @@ bot.message(in: "#introduction") do |event|
     else
       admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
 
-      admin_user.pm("Member: #{event.user.name}")
-      admin_user.pm("RBG: #{top_left_corner}")
-      admin_user.pm("Player Image: #{image_url}")
+      admin_user.pm("**Member*: #{event.user.name}")
+      admin_user.pm("**RBG*: #{top_left_corner}")
+      admin_user.pm("**Player Image**: #{image_url}")
     end
   end
 end
