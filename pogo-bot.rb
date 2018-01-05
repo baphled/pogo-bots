@@ -70,8 +70,8 @@ bot.message(in: "#introduction") do |event|
     else
       admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
 
-      admin_user.pm("**Member*: #{event.user.name}")
-      admin_user.pm("**RBG*: #{top_left_corner}")
+      admin_user.pm("**Member**: #{event.user.name}")
+      admin_user.pm("**RBG**: #{top_left_corner}")
       admin_user.pm("**Player Image**: #{image_url}")
     end
   end
