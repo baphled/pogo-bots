@@ -7,6 +7,7 @@ module TeamColourMatrix
         [151, 1, 30],  # Orangey Red
         [153, 0, 30],  # Tomato Red
         [255, 9, 49],  # Bright Red
+        [255, 9, 50], # Bright Red
         [234, 53, 60], # Bright Red
       ]
     end
