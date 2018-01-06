@@ -66,40 +66,46 @@ bot.message(in: "#introduction") do |event|
   if not event.message.attachments.empty?
     image_url = event.message.attachments.first.url
     image = MiniMagick::Image.open(image_url)
+
     colour_array = image.get_pixels
-    top_left_corner = colour_array.first.first
 
-    if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
-      team = 'Mystic'
-    elsif TeamColourMatrix::Valor.colours.include?(top_left_corner)
-      team = 'Valor'
-    elsif TeamColourMatrix::Instinct.colours.include?(top_left_corner)
-      team = 'Instinct'
-    end
+    if colour_array.first.count >= 1242
+      top_left_corner = colour_array.first.first
 
-    if team != :undefined
-      found_role = event.server.roles.find { |role| role.name == team }
-
-      role_id = found_role.id
-
-      if !role_id.nil?
-        event.user.add_role(role_id)
-
-        event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
-        event.respond "Type `!help` for more information"
-      else
-        event.respond 'Unable to verify player'
+      if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
+        team = 'Mystic'
+      elsif TeamColourMatrix::Valor.colours.include?(top_left_corner)
+        team = 'Valor'
+      elsif TeamColourMatrix::Instinct.colours.include?(top_left_corner)
+        team = 'Instinct'
       end
-    else
-      admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
 
-      message  = """
+      if team != :undefined
+        found_role = event.server.roles.find { |role| role.name == team }
+
+        role_id = found_role.id
+
+        if !role_id.nil?
+          event.user.add_role(role_id)
+
+          event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
+          event.respond "Type `!help` for more information"
+        else
+          event.respond 'Unable to verify player'
+        end
+      else
+        admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
+
+        message  = """
 **Member**: #{event.user.name}
 **Server**: #{event.server.name}
-**RBG**: #{top_left_corner}
+**RBG**: #{top_left_corner.join(',')}
 **Player Image**: #{image_url}
-      """
-      admin_user.pm(message)
+        """
+        admin_user.pm(message)
+      end
+    else
+      event.respond "**Invalid player screenshot**"
     end
   end
 end
