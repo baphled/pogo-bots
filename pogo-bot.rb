@@ -69,7 +69,7 @@ bot.message(in: "#introduction") do |event|
 
     colour_array = image.get_pixels
 
-    if colour_array.first.count >= 1242
+    if colour_array.first.count >= 640
       top_left_corner = colour_array.first.first
 
       if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
