@@ -11,18 +11,23 @@ image_url = 'https://cdn.discordapp.com/attachments/390221214624382977/398695926
 
 image = MiniMagick::Image.open(image_url)
 colour_array = image.get_pixels
-top_left_corner = colour_array.first.first
+puts colour_array.first.count
+if colour_array.first.count >= 640
+  top_left_corner = colour_array.first.first
 
-puts top_left_corner.inspect
+  puts "[#{top_left_corner.join(',')}]"
 
-if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
-  team = 'Mystic'
-elsif TeamColourMatrix::Valor.colours.include?(top_left_corner)
-  team = 'Valor'
-elsif TeamColourMatrix::Instinct.colours.include?(top_left_corner)
-  team = 'Instinct'
+  if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
+    team = 'Mystic'
+  elsif TeamColourMatrix::Valor.colours.include?(top_left_corner)
+    team = 'Valor'
+  elsif TeamColourMatrix::Instinct.colours.include?(top_left_corner)
+    team = 'Instinct'
+  else
+    team 'Unknown'
+  end
+
+  puts team
 else
-  team 'Unknown'
+  puts 'Not a valid player screenshot'
 end
-
-puts team
