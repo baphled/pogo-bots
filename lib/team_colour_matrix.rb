@@ -3,6 +3,8 @@ require_relative './team_colour_matrix/mystic'
 require_relative './team_colour_matrix/valor'
 require_relative './team_colour_matrix/instinct'
 
+require_relative './team_colour_matrix/models/rgb_list'
+
 require 'active_record'
 
 root = File.expand_path '../..', __FILE__

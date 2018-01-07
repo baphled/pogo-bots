@@ -8,6 +8,7 @@ require "database_cleaner"
 require 'pogo_stats'
 require 'pogo_weather'
 require 'po_go_helper'
+require 'team_colour_matrix'
 
 ENV['RACK_ENV'] = 'test'
 
