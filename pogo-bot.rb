@@ -60,44 +60,20 @@ bot.command(:weather, description: 'Provides a weather forecast for a city') do 
 end
 
 bot.message(in: "#introduction") do |event|
-  team = :undefined
-
   if not event.message.attachments.empty?
-    image_url = event.message.attachments.first.url
     begin
-      verification_processor = TeamVerification::Processor.new(uri: image_url, image_processor: MiniMagick::Image)
+      image_url = event.message.attachments.first.url
+      rgb_value = TeamVerification.start(uri: image_url)
 
-      colour_array = verification_processor.colour_array
-      rgb_value = colour_array.first
+      team = TeamColourMatrix.verified_team(rgb_value)
 
-      TeamColourMatrix.verified_team(rgb_value)
-
-      found_role = event.server.roles.find { |role| role.name == team }
-
-      role_id = found_role.id
-
-      if !role_id.nil?
-        event.user.add_role(role_id)
-
-        event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
-        event.respond "Type `!help` for more information"
-      else
-        event.respond "Unable to set #{event.user.name} role (#{team})"
-      end
+      TeamVerification.complete(event: event, team: team)
     rescue TeamVerification::InvalidPlayerImage
       event.respond "**Invalid player screenshot**"
+    rescue TeamVerification::DiscordRoleNotFound
+      event.respond "Unable to set #{event.user.name} role (#{team})"
     rescue TeamColourMatrix::TeamNotFound
-      admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
-
-      message  = """
-**Member**: #{event.user.name}
-**Server**: #{event.server.name}
-**RBG**: #{top_left_corner.join(',')}
-**Player Image**: #{image_url}
-      """
-      admin_user.pm(message)
-
-      event.respond 'Unable to verify the players team'
+      TeamVerification.contact_mods(event: event, rgb: rgb_value, uri: image_url)
     end
   end
 end
