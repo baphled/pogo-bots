@@ -23,6 +23,20 @@ RSpec.describe TeamColourMatrix::Models::RgbList do
     it 'must have a team' do
       expect(subject.errors.messages[:team]).to include("can't be blank")
     end
+
+    context 'RGB already saved for team' do
+      subject { described_class.new(r: 0, g: 0, b:255, team: 'Mystic') }
+
+      before(:each) do
+        described_class.create(r: 0, g: 0, b:255, team: 'Mystic')
+      end
+
+      it 'must have a unique' do
+        subject.valid?
+
+        expect(subject.errors.messages[:team]).to eql(['has already been taken'])
+      end
+    end
   end
 
 
