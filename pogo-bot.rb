@@ -68,44 +68,36 @@ bot.message(in: "#introduction") do |event|
       verification_processor = TeamVerification::Processor.new(uri: image_url, image_processor: MiniMagick::Image)
 
       colour_array = verification_processor.colour_array
-      top_left_corner = colour_array.first
+      rgb_value = colour_array.first
 
-      if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
-        team = 'Mystic'
-      elsif TeamColourMatrix::Valor.colours.include?(top_left_corner)
-        team = 'Valor'
-      elsif TeamColourMatrix::Instinct.colours.include?(top_left_corner)
-        team = 'Instinct'
-      end
+      TeamColourMatrix.verified_team(rgb_value)
 
-      if team != :undefined
-        found_role = event.server.roles.find { |role| role.name == team }
+      found_role = event.server.roles.find { |role| role.name == team }
 
-        role_id = found_role.id
+      role_id = found_role.id
 
-        if !role_id.nil?
-          event.user.add_role(role_id)
+      if !role_id.nil?
+        event.user.add_role(role_id)
 
-          event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
-          event.respond "Type `!help` for more information"
-        else
-          event.respond "Unable to set #{event.user.name} role (#{team})"
-        end
+        event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
+        event.respond "Type `!help` for more information"
       else
-        admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
+        event.respond "Unable to set #{event.user.name} role (#{team})"
+      end
+    rescue TeamVerification::InvalidPlayerImage
+      event.respond "**Invalid player screenshot**"
+    rescue TeamColourMatrix::TeamNotFound
+      admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
 
-        message  = """
+      message  = """
 **Member**: #{event.user.name}
 **Server**: #{event.server.name}
 **RBG**: #{top_left_corner.join(',')}
 **Player Image**: #{image_url}
-        """
-        admin_user.pm(message)
+      """
+      admin_user.pm(message)
 
-        event.respond 'Unable to verify the players team'
-      end
-    rescue TeamVerification::InvalidPlayerImage
-      event.respond "**Invalid player screenshot**"
+      event.respond 'Unable to verify the players team'
     end
   end
 end
