@@ -70,25 +70,27 @@ bot.message(in: "#introduction") do |event|
   end
 end
 
-bot.command(:'set-colour', min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
+# TODO mods = 341186632843788291
+#
+# Need to change this so that it is not tied to a specific discord guild
+#
+bot.command(:'set-colour', required_roles: [341186632843788291], min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
   teams = [
     'Mystic',
     'Valor',
     'Instinct',
   ]
 
-  if event.server.nil?
-    if teams.include?(team.capitalize)
-      r,g,b = rgb_args[1..-2].split(',').collect! {|n| n.to_i}
-      rgb_list = TeamColourMatrix::Models::RgbList.new(r: r, g: g, b: b, team: team.capitalize)
-      if rgb_list.save
-        event.respond 'New RGB added'
-      else
-        event.respond rgb_list.errors
-      end
+  if teams.include?(team.capitalize)
+    r,g,b = rgb_args[1..-2].split(',').collect! {|n| n.to_i}
+    rgb_list = TeamColourMatrix::Models::RgbList.new(r: r, g: g, b: b, team: team.capitalize)
+    if rgb_list.save
+      event.respond 'New RGB added'
     else
-      event.respond 'Invalid command'
+      event.respond rgb_list.errors
     end
+  else
+    event.respond 'Invalid command'
   end
 end
 
