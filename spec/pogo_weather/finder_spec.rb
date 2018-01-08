@@ -116,6 +116,10 @@ RSpec.describe PogoWeather::Finder do
       it_behaves_like 'overcast weather boost' do
         let(:weather_text) { 'overcast' }
       end
+
+      it_behaves_like 'overcast weather boost' do
+        let(:weather_text) { 'cloudy' }
+      end
     end
 
     it 'includes the fog pokemon' do

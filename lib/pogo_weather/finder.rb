@@ -53,7 +53,8 @@ module PogoWeather
         },
         {
           conditions: [
-            'overcast'
+            'overcast',
+            'cloudy',
           ],
           types: [
             'poison',
