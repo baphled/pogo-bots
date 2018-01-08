@@ -12,7 +12,6 @@ require "pry"
 
 require_relative './lib/po_go_helper'
 require_relative './lib/team_colour_matrix'
-require_relative './lib/team_colour_matrix/models/rgb_list'
 require_relative './lib/pogo_weather'
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['POGO_DISCORD_TOKEN'], prefix: '!'
@@ -65,12 +64,11 @@ bot.message(in: "#introduction") do |event|
 
   if not event.message.attachments.empty?
     image_url = event.message.attachments.first.url
-    image = MiniMagick::Image.open(image_url)
+    begin
+      verification_processor = TeamVerification::Processor.new(uri: image_url, image_processor: MiniMagick::Image)
 
-    colour_array = image.get_pixels
-
-    if colour_array.first.count >= 640
-      top_left_corner = colour_array.first.first
+      colour_array = verification_processor.colour_array
+      top_left_corner = colour_array.first
 
       if TeamColourMatrix::Mystic.colours.include?(top_left_corner)
         team = 'Mystic'
@@ -91,7 +89,7 @@ bot.message(in: "#introduction") do |event|
           event.respond "**Verified**: #{event.user.name} as a member of team #{team}"
           event.respond "Type `!help` for more information"
         else
-          event.respond 'Unable to verify player'
+          event.respond "Unable to set #{event.user.name} role (#{team})"
         end
       else
         admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
@@ -103,8 +101,10 @@ bot.message(in: "#introduction") do |event|
 **Player Image**: #{image_url}
         """
         admin_user.pm(message)
+
+        event.respond 'Unable to verify the players team'
       end
-    else
+    rescue TeamVerification::InvalidPlayerImage
       event.respond "**Invalid player screenshot**"
     end
   end

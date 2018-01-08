@@ -40,6 +40,7 @@ RSpec.describe TeamColourMatrix::Models::RgbList do
 
       expect(subject).to be_valid
     end
+
     it 'can be Instinct' do
       subject.team = 'Instinct'
 
@@ -49,7 +50,7 @@ RSpec.describe TeamColourMatrix::Models::RgbList do
     it 'can not be another value' do
       subject.team = 'foo'
 
-      expect(subject).to_not be_valid
+      expect(subject).not_to be_valid
     end
   end
 end
