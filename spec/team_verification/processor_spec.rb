@@ -22,6 +22,10 @@ RSpec.describe TeamVerification::Processor do
     expect(subject.colour_array).to be_an(Array)
   end
 
+  it 'has a pixel width' do
+    expect(subject.pixel_width).to eql(640)
+  end
+
   describe '#new' do
     subject { described_class }
 
