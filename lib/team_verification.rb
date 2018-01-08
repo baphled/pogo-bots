@@ -30,11 +30,10 @@ module TeamVerification
   end
 
   def self.contact_mods(event:, rgb:, uri:)
-
-    admin_user = event.server.users.find { |u| u.name == ENV['DEVELOPER_DISCORD_NAME']}
-
+    channel = event.server.channels.find { |c| c.name == ENV['DEVELOPER_DISCORD_CHANNEL'] }
     message = failed_verification_message(event: event, rgb: rgb, uri: uri)
-    admin_user.pm(message)
+
+    channel.message(message)
 
     event.respond 'Unable to verify the players team'
   end
