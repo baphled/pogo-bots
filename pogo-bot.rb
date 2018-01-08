@@ -87,11 +87,14 @@ bot.command(:'set-colour', required_roles: [341186632843788291], min_args: 2, ma
     if rgb_list.save
       event.respond 'New RGB added'
     else
-      event.respond rgb_list.errors
+      rgb_list.errors.full_messages.each do |message|
+        event.respond message
+      end
     end
   else
     event.respond 'Invalid command'
   end
+  nil
 end
 
 bot.command(:'verified-rgbs', required_roles: [341186632843788291], min_args: 1, max_args: 1, description: 'Return a list of RGB values for a given team') do |event, team|
