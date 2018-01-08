@@ -74,7 +74,7 @@ end
 #
 # Need to change this so that it is not tied to a specific discord guild
 #
-bot.command(:'set-colour', required_roles: [341186632843788291], min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
+bot.command(:'team-rgb', required_roles: [341186632843788291], min_args: 2, max_args: 2, description: 'Allows a user to define a RGB for a PoGo team') do |event, rgb_args, team|
   teams = [
     'Mystic',
     'Valor',
@@ -97,7 +97,7 @@ bot.command(:'set-colour', required_roles: [341186632843788291], min_args: 2, ma
   nil
 end
 
-bot.command(:'verified-rgbs', required_roles: [341186632843788291], min_args: 1, max_args: 1, description: 'Return a list of RGB values for a given team') do |event, team|
+bot.command(:'team-rgbs', required_roles: [341186632843788291], min_args: 1, max_args: 1, description: 'Return a list of RGB values for a given team') do |event, team|
   team = team.capitalize
   teams = [
     'Mystic',
