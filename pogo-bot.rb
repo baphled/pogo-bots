@@ -6,8 +6,6 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'active_support/inflector/inflections'
 
-require 'mini_magick'
-
 require "pry"
 
 require_relative './lib/po_go_helper'
@@ -29,12 +27,6 @@ end
 
 bot.command(:'next-migration', description: 'Displays when the next migration will be') do |event|
   event.respond "The next nest migration is: #{PoGoHelper.next_migration}"
-
-  nil
-end
-
-bot.command(:'current-migration', description: 'Displays when the current migration date') do |event|
-  event.respond "The current migration ends on: #{PoGoHelper.current_migration}"
 
   nil
 end

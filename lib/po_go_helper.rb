@@ -1,14 +1,6 @@
 require 'yaml'
 
 class PoGoHelper
-  def self.current_migration
-    root = File.expand_path '../..', __FILE__
-    last_migration_path = File.join(root, 'last_migration.yml')
-    last_migration_hash = HashWithIndifferentAccess.new(YAML.load_file(last_migration_path))
-
-    last_migration_hash[:last_migration].to_time.strftime("%d/%m/%Y")
-  end
-
   def self.next_migration
     root = File.expand_path '../..', __FILE__
     last_migration_path = File.join(root, 'last_migration.yml')

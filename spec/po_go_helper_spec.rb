@@ -1,22 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe PoGoHelper do
-  describe '.current_migration' do
-    subject { described_class }
-
-    let(:last_migration_hash) do
-      { last_migration: '28/12/2017' }
-    end
-
-    it 'returns the current migration date' do
-      allow(YAML)
-        .to receive(:load_file)
-        .and_return(last_migration_hash)
-
-      expect(subject.current_migration).to eql('28/12/2017')
-    end
-  end
-
   describe '.next_migration' do
     subject { described_class }
 
@@ -49,23 +33,7 @@ RSpec.describe PoGoHelper do
         last_migration.to_date + 2.weeks
       end
 
-      it 'updates the last migration date' do
-      allow(YAML)
-        .to receive(:load_file)
-        .and_return(last_migration_hash)
-
-        allow(Time)
-          .to receive(:now)
-          .and_return(last_migration)
-
-        allow(File)
-          .to receive(:open)
-          .and_return(true)
-
-        expect(subject.next_migration).to eql(last_migration.strftime("%d/%m/%Y"))
-      end
-      
-      it 'stores the latest migration date' do
+      before(:each) do
         allow(YAML)
           .to receive(:load_file)
           .and_return(last_migration_hash)
@@ -73,7 +41,17 @@ RSpec.describe PoGoHelper do
         allow(Time)
           .to receive(:now)
           .and_return(last_migration)
+      end
 
+      it 'updates the last migration date' do
+        allow(File)
+          .to receive(:open)
+          .and_return(true)
+
+        expect(subject.next_migration).to eql(last_migration.strftime("%d/%m/%Y"))
+      end
+
+      it 'stores the latest migration date' do
         expect(File)
           .to receive(:open)
           .and_return(true)
