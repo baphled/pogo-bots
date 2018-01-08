@@ -33,7 +33,7 @@ module TeamVerification
     channel = event.server.channels.find { |c| c.name == ENV['DEVELOPER_DISCORD_CHANNEL'] }
     message = failed_verification_message(event: event, rgb: rgb, uri: uri)
 
-    channel.message(message)
+    channel.send_message(message)
 
     event.respond 'Unable to verify the players team'
   end
