@@ -94,4 +94,32 @@ bot.command(:'set-colour', required_roles: [341186632843788291], min_args: 2, ma
   end
 end
 
+bot.command(:'verified-rgbs', required_roles: [341186632843788291], min_args: 1, max_args: 1, description: 'Return a list of RGB values for a given team') do |event, team|
+  team = team.capitalize
+  teams = [
+    'Mystic',
+    'Valor',
+    'Instinct',
+  ]
+
+  if teams.include?(team)
+    colours = TeamColourMatrix::Models::RgbList.where(team: team)
+    colours = colours.sort { |a,b| [a.r,a.g,a.b] <=> [b.r,b.g,b.b] }
+
+    if colours.empty?
+      event.respond 'No RGB values found'
+    else
+			message = ERB.new(<<-BLOCK).result(binding)
+<% colours.each do |colour| %>
+[<%= colour.r %>,<%= colour.g %>,<%= colour.b %>]
+<% end %>
+BLOCK
+
+      event.respond message
+    end
+  else
+    event.respond 'Invalid command'
+  end
+end
+
 bot.run
