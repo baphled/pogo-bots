@@ -8,8 +8,8 @@ class PoGoHelper
     last_migration_hash = HashWithIndifferentAccess.new(YAML.load_file(last_migration_path))
     next_migration = last_migration_hash[:last_migration].to_date + 2.weeks
 
-    if Time.now.to_date < last_migration_hash[:last_migration].to_date
-      next_migration.to_time.strftime("%d/%m/%Y")
+    if Time.now.to_date <= last_migration_hash[:last_migration].to_date
+      last_migration_hash[:last_migration].to_time.strftime("%d/%m/%Y")
     else
       last_migration_hash[:last_migration] = next_migration.strftime('%d/%m/%Y')
 
