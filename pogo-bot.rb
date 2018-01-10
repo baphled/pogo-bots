@@ -31,6 +31,10 @@ bot.command(:'next-migration', description: 'Displays when the next migration wi
   nil
 end
 
+bot.message(contains: ['nests change', 'next migration', 'nest migration']) do |event|
+  event.respond "The next nest migration is: #{PoGoHelper.next_migration}"
+end
+
 bot.command(:weather, description: 'Provides a weather forecast for a city') do |event, *city|
   city = city.join(' ')
   city = 'Bath' if city.nil? or city.empty?
