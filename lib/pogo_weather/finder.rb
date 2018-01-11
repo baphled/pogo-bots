@@ -53,6 +53,16 @@ module PogoWeather
         },
         {
           conditions: [
+            'breezy'
+          ],
+          types: [
+            'psychic',
+            'flying',
+            'dragon',
+          ]
+        },
+        {
+          conditions: [
             'overcast',
             'cloudy',
           ],
@@ -69,16 +79,6 @@ module PogoWeather
           types: [
             'ghost',
             'dark',
-          ]
-        },
-        {
-          conditions: [
-            'breezy'
-          ],
-          types: [
-            'psychic',
-            'flying',
-            'dragon',
           ]
         },
       ]
