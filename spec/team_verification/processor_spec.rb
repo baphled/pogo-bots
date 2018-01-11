@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe TeamVerification::Processor do
   let(:uri) { './spec/fixtures/images/baphled-mystic.png' }
   let(:image_processor) { MiniMagick::Image }
+  let(:width_of_image) { 640 }
 
   subject { described_class.new(uri: uri, image_processor: image_processor) }
 
@@ -23,12 +24,10 @@ RSpec.describe TeamVerification::Processor do
   end
 
   it 'has a pixel width' do
-    expect(subject.pixel_width).to eql(640)
+    expect(subject.pixel_width).to eql(width_of_image)
   end
 
   describe '#new' do
-    let(:colour_array) { double() }
-
     subject { described_class }
 
     it 'takes an image uri' do
@@ -46,20 +45,16 @@ RSpec.describe TeamVerification::Processor do
     end
 
     context 'smallest image possible' do
-      let(:uri) { './spec/fixtures/images/dot.tif' }
+      let(:colour_array) { double(Array, count: width_of_image) }
 
       it 'does not raise an error' do
-        allow(colour_array)
-          .to receive(:count)
-          .and_return(640)
-
         allow_any_instance_of(TeamVerification::Processor)
           .to receive(:colour_array)
           .and_return(colour_array)
 
         expect {
           subject.new(uri: uri, image_processor: image_processor)
-        }.to_not raise_error(TeamVerification::InvalidPlayerImage)
+        }.to_not raise_error
       end
     end
   end
