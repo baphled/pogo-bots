@@ -15,9 +15,10 @@ module TeamVerification
       self.uri = uri
       self.image_processor = image_processor
       self.image = image_processor.open(uri)
+
       self.colour_array = image.get_pixels.first
 
-      raise TeamVerification::InvalidPlayerImage if self.colour_array.count <= self.pixel_width
+      raise TeamVerification::InvalidPlayerImage if self.colour_array.count < self.pixel_width
     end
 
     protected

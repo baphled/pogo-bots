@@ -27,6 +27,8 @@ RSpec.describe TeamVerification::Processor do
   end
 
   describe '#new' do
+    let(:colour_array) { double() }
+
     subject { described_class }
 
     it 'takes an image uri' do
@@ -40,6 +42,24 @@ RSpec.describe TeamVerification::Processor do
         expect {
           subject.new(uri: uri, image_processor: image_processor)
         }.to raise_error(TeamVerification::InvalidPlayerImage)
+      end
+    end
+
+    context 'smallest image possible' do
+      let(:uri) { './spec/fixtures/images/dot.tif' }
+
+      it 'does not raise an error' do
+        allow(colour_array)
+          .to receive(:count)
+          .and_return(640)
+
+        allow_any_instance_of(TeamVerification::Processor)
+          .to receive(:colour_array)
+          .and_return(colour_array)
+
+        expect {
+          subject.new(uri: uri, image_processor: image_processor)
+        }.to_not raise_error(TeamVerification::InvalidPlayerImage)
       end
     end
   end
