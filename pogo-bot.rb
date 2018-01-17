@@ -55,7 +55,7 @@ bot.command(:weather, description: 'Provides a weather forecast for a city') do 
   nil
 end
 
-bot.message(in: "#introduction") do |event|
+bot.message(in: ["#introduction", "assign_member_team"]) do |event|
   if not event.message.attachments.empty?
     begin
       image_url = event.message.attachments.first.url
