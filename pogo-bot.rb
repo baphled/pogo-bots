@@ -63,7 +63,8 @@ bot.message(in: ["#introduction", "assign_member_team"]) do |event|
 
       team = TeamColourMatrix.verified_team(rgb_value)
 
-      TeamVerification.complete(event: event, team: team)
+      # TODO: Really we should allow the guild admin to set the team values
+      TeamVerification.complete(event: event, team: team.downcase)
     rescue TeamVerification::InvalidPlayerImage
       event.respond "**Invalid player screenshot**"
     rescue TeamVerification::DiscordRoleNotFound
