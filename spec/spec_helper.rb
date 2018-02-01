@@ -10,6 +10,8 @@ require 'pogo_weather'
 require 'po_go_helper'
 require 'team_colour_matrix'
 
+require 'rocket_maps'
+
 ENV['RACK_ENV'] = 'test'
 
 # Requires supporting files with custom matchers and macros, etc,

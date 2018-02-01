@@ -16,6 +16,9 @@ gem "mini_magick"
 # Accuweather bot
 gem 'accuweather'
 
+# RocketMap
+gem 'httparty'
+
 group :development, :test do
   gem 'database_cleaner'
   gem 'pry'
