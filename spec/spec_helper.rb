@@ -12,7 +12,7 @@ require 'team_colour_matrix'
 
 require 'rocket_maps'
 
-ENV['RACK_ENV'] = 'test'
+ENV['ENV'] = 'test'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
